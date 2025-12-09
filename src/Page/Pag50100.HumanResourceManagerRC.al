@@ -114,7 +114,7 @@ page 50100 "Human Resource Manager RC"
                 action("Leave Types")
                 {
                     Caption = 'Leave Types';
-                    Image = Process;
+                    Image = Category;
                     RunObject = page "Leave Types";
                     ApplicationArea = All;
                     ToolTip = 'Executes the Leave Types action.';
