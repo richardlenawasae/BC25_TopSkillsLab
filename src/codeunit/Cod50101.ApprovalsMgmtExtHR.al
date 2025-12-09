@@ -146,7 +146,7 @@ codeunit 50101 "Approvals Mgmt Ext HR"
 
     procedure IsLeaveApplicationApprovalsWorkflowEnabled(var LeaveApplication: Record "Leave Application"): Boolean
     begin
-        EXIT(WorkflowManagement.CanExecuteWorkflow(LeaveApplication, WorkflowEventHandlingExt.RunWorkflowOnSendLeaveApplicationForApprovalCode));
+        EXIT(WorkflowManagement.CanExecuteWorkflow(LeaveApplication, WorkflowEventHandlingExt.RunWorkflowOnSendLeaveApplicationForApprovalCode()));
     end;
 
     // procedure IsRecruitmentRequestApprovalsWorkflowEnabled(var RecruitmentRequest: Record "Recruitment Request"): Boolean
@@ -161,7 +161,7 @@ codeunit 50101 "Approvals Mgmt Ext HR"
 
     procedure IsEmployeeApprovalsWorkflowEnabled(var Employee: Record Employee): Boolean
     begin
-        EXIT(WorkflowManagement.CanExecuteWorkflow(Employee, WorkflowEventHandlingExt.RunWorkflowOnSendEmployeeForApprovalCode));
+        EXIT(WorkflowManagement.CanExecuteWorkflow(Employee, WorkflowEventHandlingExt.RunWorkflowOnSendEmployeeForApprovalCode()));
     end;
 
     procedure CheckLeaveApplicationApprovalPossible(var LeaveApplication: Record "Leave Application"): Boolean

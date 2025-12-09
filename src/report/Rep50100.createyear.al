@@ -24,26 +24,31 @@ report 50100 "Create Leave Year"
                     {
                         Caption = 'Period Code';
                         ApplicationArea = all;
+                        ToolTip = 'Specifies the value of the Period Code field.';
                     }
                     field(PeriodDescription; PeriodDescription)
                     {
                         Caption = 'Period Description';
                         ApplicationArea = all;
+                        ToolTip = 'Specifies the value of the Period Description field.';
                     }
                     field(LeaveYearStartDate; LeaveYearStartDate)
                     {
                         Caption = 'Period Starting Date';
                         ApplicationArea = all;
+                        ToolTip = 'Specifies the value of the Period Starting Date field.';
                     }
                     field(NoOfPeriods; NoOfPeriods)
                     {
                         Caption = 'No. of Periods';
                         ApplicationArea = all;
+                        ToolTip = 'Specifies the value of the No. of Periods field.';
                     }
                     field(PeriodLength; PeriodLength)
                     {
                         Caption = 'Period Length';
                         ApplicationArea = all;
+                        ToolTip = 'Specifies the value of the Period Length field.';
                     }
                 }
             }
@@ -87,7 +92,7 @@ report 50100 "Create Leave Year"
                 IF (LeaveYearStartDate >= FirstPeriodStartDate) AND (LeaveYearStartDate < LastPeriodStartDate) THEN
                     ERROR(Text004);
 
-            HRLeavePeriod.INIT;
+            HRLeavePeriod.INIT();
             HRLeavePeriod."Period Code" := PeriodCode;
             HRLeavePeriod."Period Description" := PeriodDescription;
             HRLeavePeriod."Starting Date" := LeaveYearStartDate;
@@ -107,7 +112,7 @@ report 50100 "Create Leave Year"
             END;
 
             IF NOT HRLeavePeriod.FIND('=') THEN
-                HRLeavePeriod.INSERT;
+                HRLeavePeriod.INSERT();
             LeaveYearStartDate := CALCDATE(PeriodLength, LeaveYearStartDate);
         END;
     end;

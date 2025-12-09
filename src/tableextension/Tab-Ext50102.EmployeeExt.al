@@ -129,6 +129,7 @@ tableextension 50102 EmployeeExt extends Employee
 
         field(50119; "Basic Pay"; Decimal)
         {
+            DataClassification = CustomerContent;
         }
         // field(50120; "Member No."; Code[20])
         // {
@@ -136,9 +137,11 @@ tableextension 50102 EmployeeExt extends Employee
         // }
         field(50121; "Pay Tax"; Boolean)
         {
+            DataClassification = CustomerContent;
         }
         field(50122; Pensonable; Boolean)
         {
+            DataClassification = CustomerContent;
         }
         field(50123; "Department Code"; Code[20])
         {
@@ -149,9 +152,9 @@ tableextension 50102 EmployeeExt extends Employee
             trigger OnValidate()
             begin
                 // ValidateShortcutDimCode(2, "Global Dimension 2 Code");
-                DimensionValue.Reset;
+                DimensionValue.Reset();
                 DimensionValue.SetRange("Dimension Code", "Department Code");
-                if DimensionValue.FindFirst THEN begin
+                if DimensionValue.FindFirst() THEN begin
                     "Department Name" := DimensionValue.Name;
                 end;
             end;
@@ -160,17 +163,74 @@ tableextension 50102 EmployeeExt extends Employee
         {
             TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1),
                                                           Blocked = CONST(false));
+            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
                 //  ValidateShortcutDimCode(1, "Global Dimension 1 Code");
 
-                DimensionValue.Reset;
+                DimensionValue.Reset();
                 DimensionValue.SetRange("Dimension Code", "Branch Code");
-                if DimensionValue.FindFirst THEN begin
+                if DimensionValue.FindFirst() THEN begin
                     //"Branch Name" := DimensionValue.Name;
                 end;
             end;
+        }
+        field(50125; "Probation Period"; DateFormula)
+        {
+            Editable = false;
+            DataClassification = CustomerContent;
+        }
+        field(50126; "Confirmation/Dismissal Date"; Date)
+        {
+            Editable = False;
+            DataClassification = CustomerContent;
+        }
+        field(50127; "Job Code"; Code[100])
+        {
+            DataClassification = CustomerContent;
+            // TableRelation = Position;
+            // trigger OnValidate();
+            // begin
+
+            //     position.RESET;
+            //     position.SETRANGE("No.", "Job Code");
+            //     if position.FindFirst then begin
+            //         "Employee Job Title" := position."Job Title";
+            //     end;
+            // end;
+        }
+        field(50128; Grade; Code[10])
+        {
+            DataClassification = CustomerContent;
+            //TableRelation = Grade;
+        }
+        field(50129; "Staff Category"; option)
+        {
+            OptionMembers = Functional,Management,Supervisory;
+            DataClassification = CustomerContent;
+        }
+        field(50130; "Second Supervisor ID"; Code[20])
+        {
+            TableRelation = Employee;
+            DataClassification = CustomerContent;
+            trigger OnValidate();
+            begin
+                Employee.Reset;
+                Employee.SetRange("No.", "Second Supervisor ID");
+                if Employee.FindFirst then begin
+                    "Second Supervisor Name" := Employee.FullName;
+                end;
+            end;
+        }
+        field(50131; "Second Supervisor Name"; Text[100])
+        {
+            Editable = False;
+            DataClassification = CustomerContent;
+        }
+        field(50132; "Probation End Date"; Date)
+        {
+            DataClassification = CustomerContent;
         }
     }
     var

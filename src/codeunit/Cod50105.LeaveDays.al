@@ -2,11 +2,11 @@ codeunit 50105 "Leave Days"
 {
     trigger OnRun()
     begin
-        LeaveTypes.RESET;
+        LeaveTypes.RESET();
         LeaveTypes.SetRange("Annual Leave", true);
-        IF LeaveTypes.FINDSET THEN begin
+        IF LeaveTypes.FINDSET() THEN begin
             REPEAT
-                Employee.RESET;
+                Employee.RESET();
                 Employee.SETRANGE("Employee Type", Employee."Employee Type"::Permanent);
                 if Employee.FindSet() then BEGIN
                     repeat
@@ -17,7 +17,7 @@ codeunit 50105 "Leave Days"
                             LeaveLedgerEntry.Reset();
                             if LeaveLedgerEntry.FindLast() then
                                 myInt := LeaveLedgerEntry."Entry No." + 1;
-                            LeaveLedgerEntry.INIT;
+                            LeaveLedgerEntry.INIT();
                             LeaveLedgerEntry."Entry No." := myInt;
                             LeaveLedgerEntry."Leave Period" := Format(Date2DMY(Today, 3));
                             LeaveLedgerEntry.Closed := false;
@@ -31,18 +31,18 @@ codeunit 50105 "Leave Days"
                             LeaveLedgerEntry."Document No" := 'LEAVE-' + FORMAT(DATE2DMY(TODAY, 3));
                             LeaveLedgerEntry.Description := 'Leave Days earned ' + FORMAT(TODAY);
                             LeaveLedgerEntry."Entry Type" := LeaveLedgerEntry."Entry Type"::Positive;
-                            LeaveLedgerEntry.INSERT;
+                            LeaveLedgerEntry.INSERT();
                         end;
                     UNTIL Employee.Next() = 0;
                 end;
             UNTIL LeaveTypes.Next() = 0;
         end;
 
-        LeaveTypes.RESET;
+        LeaveTypes.RESET();
         LeaveTypes.SetRange("Earn Basis", LeaveTypes."Earn Basis"::Monthly);
-        IF LeaveTypes.FINDSET THEN begin
+        IF LeaveTypes.FINDSET() THEN begin
             REPEAT
-                Employee.RESET;
+                Employee.RESET();
                 //  Employee.SETRANGE("Employee Type", Employee."Employee Type"::Permanent);
                 Employee.SETFILTER("Employee Status", '%1|%2|%3|%4', Employee."Employee Status"::Active, Employee."Employee Status"::Confirmed,
                     Employee."Employee Status"::Probation, Employee."Employee Status"::Suspended);
@@ -51,7 +51,7 @@ codeunit 50105 "Leave Days"
                         LeaveLedgerEntry.Reset();
                         if LeaveLedgerEntry.FindLast() then
                             myInt := LeaveLedgerEntry."Entry No." + 1;
-                        LeaveLedgerEntry.INIT;
+                        LeaveLedgerEntry.INIT();
                         LeaveLedgerEntry."Entry No." := myInt;
                         LeaveLedgerEntry."Leave Period" := Format(Date2DMY(Today, 3));
                         LeaveLedgerEntry.Closed := false;
@@ -65,17 +65,17 @@ codeunit 50105 "Leave Days"
                         LeaveLedgerEntry."Document No" := 'LEAVE-' + FORMAT(DATE2DMY(TODAY, 3));
                         LeaveLedgerEntry.Description := 'Leave Days earned ' + FORMAT(TODAY);
                         LeaveLedgerEntry."Entry Type" := LeaveLedgerEntry."Entry Type"::Positive;
-                        LeaveLedgerEntry.INSERT;
+                        LeaveLedgerEntry.INSERT();
                     UNTIL Employee.Next() = 0;
                 end;
             UNTIL LeaveTypes.Next() = 0;
         end;
-        LeaveTypes.RESET;
+        LeaveTypes.RESET();
         LeaveTypes.SetRange("Earn Basis", LeaveTypes."Earn Basis"::Annually);
         LeaveTypes.SetRange("Calc Leave Days", false);
         if LeaveTypes.FindSet() then begin
             REPEAT
-                Employee.RESET;
+                Employee.RESET();
                 Employee.SETRANGE("Employee Type", Employee."Employee Type"::Permanent);
                 Employee.SETFILTER("Employee Status", '%1|%2|%3|%4', Employee."Employee Status"::Active, Employee."Employee Status"::Confirmed,
                 Employee."Employee Status"::Probation, Employee."Employee Status"::Suspended);
@@ -84,7 +84,7 @@ codeunit 50105 "Leave Days"
                         LeaveLedgerEntry.Reset();
                         if LeaveLedgerEntry.FindLast() then
                             myInt := LeaveLedgerEntry."Entry No." + 1;
-                        LeaveLedgerEntry.INIT;
+                        LeaveLedgerEntry.INIT();
                         LeaveLedgerEntry."Entry No." := myInt;
                         LeaveLedgerEntry."Leave Period" := Format(Date2DMY(Today, 3));
                         LeaveLedgerEntry.Closed := false;
@@ -98,7 +98,7 @@ codeunit 50105 "Leave Days"
                         LeaveLedgerEntry."Document No" := 'LEAVE-' + FORMAT(DATE2DMY(TODAY, 3));
                         LeaveLedgerEntry.Description := 'Leave Days earned ' + FORMAT(TODAY);
                         LeaveLedgerEntry."Entry Type" := LeaveLedgerEntry."Entry Type"::Positive;
-                        LeaveLedgerEntry.INSERT;
+                        LeaveLedgerEntry.INSERT();
                     UNTIL Employee.Next() = 0;
                 end;
                 LeaveTypes."Calc Leave Days" := TRUE;

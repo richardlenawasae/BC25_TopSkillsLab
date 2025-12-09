@@ -81,7 +81,7 @@ report 50109 "Leave Recall Report"
 
             trigger OnPreDataItem();
             begin
-                CompanyInformation.GET;
+                CompanyInformation.GET();
                 CompanyInformation.CALCFIELDS(Picture);
 
 
@@ -90,7 +90,7 @@ report 50109 "Leave Recall Report"
             trigger OnAfterGetRecord();
             begin
                 IF Status = Status::Open then
-                    CurrReport.skip;
+                    CurrReport.skip();
             end;
         }
     }

@@ -14,6 +14,7 @@ page 50105 "Leave Attachment"
                 field("File Name"; Rec."File Name")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the File Name field.';
                 }
             }
         }
@@ -53,9 +54,9 @@ page 50105 "Leave Attachment"
 
                 trigger OnAction()
                 begin
-                    CBSAttachment.RESET;
+                    CBSAttachment.RESET();
                     CBSAttachment.SETRANGE("Entry No.", Rec."Entry No.");
-                    IF CBSAttachment.FINDFIRST THEN BEGIN
+                    IF CBSAttachment.FINDFIRST() THEN BEGIN
                         CBSAttachment.CALCFIELDS(Attachment);
                         FileManagement.BLOBExport(TempBlob, Rec."File Name", TRUE);
                     END;

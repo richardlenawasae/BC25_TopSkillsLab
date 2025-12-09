@@ -22,12 +22,12 @@ report 50115 "Employee Details Report"
             { }
             column(CountryRegionCode_Employee; "Country/Region Code")
             { }
-            column(FullName; FullName)
+            column(FullName; FullName())
             { }
             // column(Disability_Employee; Disability)
             // { }
             // column(DisabilityDescription_Employee; Disability)
-           // { }
+            // { }
             column(Age_Employee; Age)
             { }
             // column(Religion; Religion)
@@ -125,7 +125,7 @@ report 50115 "Employee Details Report"
 
     trigger OnInitReport();
     begin
-        CompanyInformation.GET;
+        CompanyInformation.GET();
     end;
 
     trigger OnPreReport();

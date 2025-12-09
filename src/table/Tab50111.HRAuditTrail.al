@@ -124,7 +124,7 @@ table 50111 "HR Audit Trail"
 
     trigger OnInsert()
     begin
-        HRSetup.GET;
+        HRSetup.GET();
         HRSetup.TestField("HR Audit Nos.");
         "Entry No." := NoSeries.GetNextNo(HRSetup."HR Audit Nos.", Today, true);
 

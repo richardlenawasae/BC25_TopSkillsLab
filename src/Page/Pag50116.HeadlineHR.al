@@ -5,6 +5,7 @@ page 50116 "Headline HR"
     Caption = 'Headline';
     PageType = HeadlinePart;
     RefreshOnActivate = true;
+    ApplicationArea = All;
 
     layout
     {
@@ -16,6 +17,7 @@ page 50116 "Headline HR"
                 {
                     ApplicationArea = All;
                     Editable = false;
+                    ToolTip = 'Specifies the value of the GetUser()) field.';
                 }
             }
             group(Control2)
@@ -25,6 +27,7 @@ page 50116 "Headline HR"
                     ApplicationArea = All;
                     DrillDown = true;
                     Editable = false;
+                    ToolTip = 'Specifies the value of the StrSubstNo(Text001, EmployeeCount) field.';
                     trigger OnDrillDown();
                     begin
                         Employee.Reset();

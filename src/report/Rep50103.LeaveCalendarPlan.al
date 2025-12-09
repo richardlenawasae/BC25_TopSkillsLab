@@ -102,9 +102,9 @@ report 50103 "Leave Calendar Plan"
 
             trigger OnAfterGetRecord();
             begin
-                Name := FullName;
+                Name := FullName();
                 SNo += 1;
-                GetLeaveEntitlement;
+                GetLeaveEntitlement();
                 GetLeaveBalances("No.");
                 GetLeavePlanDays("No.");
             end;
@@ -129,7 +129,7 @@ report 50103 "Leave Calendar Plan"
 
     trigger OnInitReport();
     begin
-        CompanyInformation.GET;
+        CompanyInformation.GET();
     end;
 
     trigger OnPreReport();
@@ -161,16 +161,16 @@ report 50103 "Leave Calendar Plan"
     begin
         CLEAR(Days);
         Submitted := FALSE;
-        LeavePlan.RESET;
+        LeavePlan.RESET();
         LeavePlan.SETRANGE(Year, DATE2DMY(TODAY, 3));
         LeavePlan.SETRANGE("Employee No", EmployeeNo);
-        IF LeavePlan.FINDLAST THEN BEGIN
-            LeavePlanLines.RESET;
+        IF LeavePlan.FINDLAST() THEN BEGIN
+            LeavePlanLines.RESET();
             LeavePlanLines.SETRANGE("No.", LeavePlan."No.");
-            IF LeavePlanLines.FINDSET THEN BEGIN
+            IF LeavePlanLines.FINDSET() THEN BEGIN
                 REPEAT
                     SumDays(DATE2DMY(LeavePlanLines."Start Date", 2), LeavePlanLines.Days);
-                UNTIL LeavePlanLines.NEXT = 0;
+                UNTIL LeavePlanLines.NEXT() = 0;
             END;
             IF LeavePlan.Status = LeavePlan.Status::Released THEN BEGIN
                 Submitted := TRUE;
@@ -182,9 +182,9 @@ report 50103 "Leave Calendar Plan"
     var
         LeaveType: Record "Leave Type";
     begin
-        LeaveType.RESET;
+        LeaveType.RESET();
         LeaveType.SETRANGE("Annual Leave", TRUE);
-        IF LeaveType.FINDFIRST THEN;
+        IF LeaveType.FINDFIRST() THEN;
         LeaveDays[3] := LeaveType.Days;
     end;
 

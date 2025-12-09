@@ -1,6 +1,6 @@
 report 50102 "Leave Balance Quarterly"
 {
-     DefaultLayout = RDLC;
+    DefaultLayout = RDLC;
     RDLCLayout = './src/layout/Leave Balance Quarterly.rdl';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = all;
@@ -13,7 +13,7 @@ report 50102 "Leave Balance Quarterly"
             column(No_; "No.")
             {
             }
-            column(FullName; FullName)
+            column(FullName; FullName())
             {
             }
             column(Picture; CompanyInfo.Picture)
@@ -101,10 +101,10 @@ report 50102 "Leave Balance Quarterly"
             trigger OnAfterGetRecord();
             begin
                 if ("Employee Status" = "Employee Status"::Dismissed) OR ("Employee Status" = "Employee Status"::Inactive) OR ("Employee Status" = "Employee Status"::Terminated) then
-                    CurrReport.skip;
+                    CurrReport.skip();
                 IF Status <> Status::Active THEN
-                    CurrReport.SKIP;
-                Name := FullName;
+                    CurrReport.SKIP();
+                Name := FullName();
                 GetLeaveBalances("No.");
                 SNo += 1;
             end;
@@ -121,10 +121,12 @@ report 50102 "Leave Balance Quarterly"
                 field("Date Filter"; DateFilter)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the DateFilter field.';
                 }
                 field(LeaveFilter; LeaveFilter)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the LeaveFilter field.';
                     // TableRelation = "Leave Type";
                 }
             }
@@ -142,9 +144,9 @@ report 50102 "Leave Balance Quarterly"
 
     trigger OnInitReport();
     begin
-       // val.validateUser();
+        // val.validateUser();
         SNo := 0;
-        CompanyInfo.GET;
+        CompanyInfo.GET();
         LeaveFilter := LeaveFilter::Annual;
     end;
 
@@ -200,7 +202,7 @@ report 50102 "Leave Balance Quarterly"
     local procedure GetEmployeefixedPay(EmployeeNo: Code[20]): Decimal
     begin
         if Employee.GET(EmployeeNo) then begin
-           // exit(Employee."Basic Pay")
+            // exit(Employee."Basic Pay")
         end;
     end;
 }

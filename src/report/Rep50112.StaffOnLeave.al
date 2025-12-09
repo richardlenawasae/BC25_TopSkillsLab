@@ -105,10 +105,10 @@ report 50112 "Staff On Leave"
             begin
 
                 IF "Approved Start Date" > TODAY THEN
-                    CurrReport.SKIP;
+                    CurrReport.SKIP();
 
                 IF "Approved End Date" < TODAY THEN
-                    CurrReport.SKIP;
+                    CurrReport.SKIP();
             end;
         }
     }
@@ -132,7 +132,7 @@ report 50112 "Staff On Leave"
 
     trigger OnInitReport();
     begin
-        CompanyInformation.GET;
+        CompanyInformation.GET();
     end;
 
     trigger OnPreReport();

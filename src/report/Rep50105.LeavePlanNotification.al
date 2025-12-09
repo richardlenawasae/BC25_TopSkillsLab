@@ -11,16 +11,16 @@ report 50105 "Leave Plan Notification"
             trigger OnAfterGetRecord();
             begin
                 IF Status = Status::Released THEN BEGIN
-                    LeavePlan.RESET;
+                    LeavePlan.RESET();
                     LeavePlan.SETRANGE("No.", "No.");
-                    IF LeavePlan.FindSET THEN begin
+                    IF LeavePlan.FindSET() THEN begin
                         REPEAT
                             IF LeavePlan."Start Date" = CalcDate('<+1D>', TODAY) then
                                 HRManagement.NotifyLeavePlanEmployee(LeavePlan."No.", "Leave Code", LeavePlan.Days, LeavePlan."Start Date", LeavePlan."End Date", "Employee No");
-                        UNTIL LeavePlan.Next = 0;
+                        UNTIL LeavePlan.Next() = 0;
                     end;
                 END ELSE
-                    CurrReport.skip;
+                    CurrReport.skip();
 
 
             end;
@@ -48,6 +48,7 @@ report 50105 "Leave Plan Notification"
                 action(ActionName)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Executes the ActionName action.';
 
                 }
             }

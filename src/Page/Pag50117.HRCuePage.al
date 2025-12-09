@@ -2,6 +2,7 @@ page 50117 HRCuePage
 {
     PageType = CardPart;
     SourceTable = "HR Cue";
+    ApplicationArea = All;
 
     layout
     {
@@ -16,11 +17,13 @@ page 50117 HRCuePage
                     ApplicationArea = All;
                     Caption = 'Active Employees';
                     DrillDownPageId = "Employee List";
+                    ToolTip = 'Specifies the value of the Active Employees field.';
                 }
                 field("Employees on Probation"; Rec."Employees on Probation")
                 {
                     ApplicationArea = All;
                     Caption = 'Employees on Probation';
+                    ToolTip = 'Specifies the value of the Employees on Probation field.';
                     //DrillDownPageId = "Employees On Probation";
                 }
                 field("Total Employees"; Rec."Total Employees")
@@ -28,6 +31,7 @@ page 50117 HRCuePage
                     ApplicationArea = All;
                     Caption = 'Total Employees';
                     DrillDownPageId = "Employee List";
+                    ToolTip = 'Specifies the value of the Total Employees field.';
                 }
             }
             cuegroup("Leave Applications")
@@ -38,18 +42,21 @@ page 50117 HRCuePage
                     ApplicationArea = All;
                     Caption = 'New Leave Applications';
                     DrillDownPageId = "Leave Application List";
+                    ToolTip = 'Specifies the value of the New Leave Applications field.';
                 }
                 field("Leave Appl. Pending Approval"; Rec."Leave Appl. Pending Approval")
                 {
                     ApplicationArea = All;
                     Caption = 'Leave Applications Pending Approval';
                     DrillDownPageId = "Leave App. Pending Approval";
+                    ToolTip = 'Specifies the value of the Leave Applications Pending Approval field.';
                 }
                 field("Approved Leave Applications"; Rec."Approved Leave Applications")
                 {
                     ApplicationArea = All;
                     Caption = 'Approved Leave Applications';
                     DrillDownPageId = "Approved Leave Application";
+                    ToolTip = 'Specifies the value of the Approved Leave Applications field.';
                 }
             }
 
@@ -78,10 +85,10 @@ page 50117 HRCuePage
     }
     trigger OnOpenPage();
     begin
-        Rec.RESET;
+        Rec.RESET();
         if not Rec.Get() then begin
-            Rec.INIT;
-            Rec.INSERT;
+            Rec.INIT();
+            Rec.INSERT();
         end;
     end;
 }

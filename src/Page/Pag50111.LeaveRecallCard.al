@@ -16,64 +16,76 @@ page 50111 "Leave Recall Card"
                 {
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the No. field.';
                 }
                 field("Recall Date"; Rec."Recall Date")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Recall Date field.';
                 }
                 field("Leave Application"; Rec."Leave Application")
                 {
                     NotBlank = true;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Leave Application field.';
                 }
                 field("Employee No"; Rec."Employee No")
                 {
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Employee No field.';
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
                     Caption = 'Employee Name';
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Employee Name field.';
                 }
                 field("Employee Department"; Rec."Employee Department")
                 {
                     Caption = 'Department';
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Department field.';
                 }
                 field("Employee Branch"; Rec."Employee Branch")
                 {
                     Caption = 'Branch';
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Branch field.';
                 }
                 field("Employee Job Title"; Rec."Employee Job Title")
                 {
                     Caption = 'Job Title';
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Job Title field.';
                 }
                 field("Leave Start Date"; Rec."Leave Start Date")
                 {
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Leave Start Date field.';
                 }
                 field("Days Applied"; Rec."Days Applied")
                 {
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Days Applied field.';
                 }
                 field("Leave Ending Date"; Rec."Leave Ending Date")
                 {
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Leave Ending Date field.';
                 }
                 field("Remaining Days"; Rec."Remaining Days")
                 {
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Remaining Days field.';
                 }
             }
             group("Recall Details")
@@ -83,52 +95,62 @@ page 50111 "Leave Recall Card"
                 {
                     Editable = true;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Recalled Days field.';
                 }
                 field("Recalled From"; Rec."Recalled From")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Recalled From field.';
                 }
                 field("Recalled To"; Rec."Recalled To")
                 {
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Recalled To field.';
                 }
                 field("Recalled By"; Rec."Recalled By")
                 {
                     NotBlank = true;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Recalled By field.';
                 }
                 field(Name; Rec.Name)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Name field.';
                 }
                 field("Recall Department"; Rec."Recall Department")
                 {
                     Caption = 'Department.';
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Department. field.';
                 }
                 field("Recall Branch"; Rec."Recall Branch")
                 {
                     Caption = 'Branch.';
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Branch. field.';
                 }
                 field("Job Title"; Rec."Job Title")
                 {
                     Caption = 'Job Title.';
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Job Title. field.';
                 }
                 field("Reason for Recall"; Rec."Reason for Recall")
                 {
                     NotBlank = true;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Reason for Recall field.';
                 }
                 field(Status; Rec.Status)
                 {
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Status field.';
                 }
             }
         }
@@ -147,6 +169,7 @@ page 50111 "Leave Recall Card"
                 PromotedIsBig = true;
                 PromotedOnly = true;
                 ApplicationArea = All;
+                ToolTip = 'Executes the Recall Employee action.';
 
                 trigger OnAction();
                 begin
@@ -176,11 +199,11 @@ page 50111 "Leave Recall Card"
 
                         Rec.Status := Rec.Status::Released;
                         HRManagement.NotifyEmployeeRecall(Rec);
-                        Rec.MODIFY;
+                        Rec.MODIFY();
 
                         IF Employee.GET(Rec."Employee No") THEN BEGIN
                             IF UserSetup.GET(USERID) THEN BEGIN
-                                HRSetup.GET;
+                                HRSetup.GET();
                                 CompanyInformation.GET();
 
                                 //RecipientMail := Employee."E-Mail" + ';' + UserSetup."E-Mail" + ';' + HRSetup."HR E-Mail";

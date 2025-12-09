@@ -10,47 +10,47 @@ codeunit 50104 "Workflow Response Handling HR"
 
     begin
         CASE ResponseFunctionName OF
-            WorkflowResponseHandling.SetStatusToPendingApprovalCode:
+            WorkflowResponseHandling.SetStatusToPendingApprovalCode():
                 begin
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SetStatusToPendingApprovalCode, WorkflowEventHandlingExt.RunWorkflowOnSendLeaveApplicationForApprovalCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SetStatusToPendingApprovalCode, WorkflowEventHandlingExt.RunWorkflowOnSendRecruitmentRequestForApprovalCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SetStatusToPendingApprovalCode, WorkflowEventHandlingExt.RunWorkflowOnSendTrainingRequestForApprovalCode);
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SetStatusToPendingApprovalCode(), WorkflowEventHandlingExt.RunWorkflowOnSendLeaveApplicationForApprovalCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SetStatusToPendingApprovalCode(), WorkflowEventHandlingExt.RunWorkflowOnSendRecruitmentRequestForApprovalCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SetStatusToPendingApprovalCode(), WorkflowEventHandlingExt.RunWorkflowOnSendTrainingRequestForApprovalCode());
                 end;
 
-            WorkflowResponseHandling.CreateApprovalRequestsCode:
+            WorkflowResponseHandling.CreateApprovalRequestsCode():
                 begin
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode, WorkflowEventHandlingExt.RunWorkflowOnSendLeaveApplicationForApprovalCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode, WorkflowEventHandlingExt.RunWorkflowOnSendRecruitmentRequestForApprovalCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode, WorkflowEventHandlingExt.RunWorkflowOnSendTrainingRequestForApprovalCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode, WorkflowEventHandlingExt.RunWorkflowOnSendEmployeeForApprovalCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode, WorkflowEventHandlingExt.RunWorkflowOnEmployeeChangedCode);
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode(), WorkflowEventHandlingExt.RunWorkflowOnSendLeaveApplicationForApprovalCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode(), WorkflowEventHandlingExt.RunWorkflowOnSendRecruitmentRequestForApprovalCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode(), WorkflowEventHandlingExt.RunWorkflowOnSendTrainingRequestForApprovalCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode(), WorkflowEventHandlingExt.RunWorkflowOnSendEmployeeForApprovalCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CreateApprovalRequestsCode(), WorkflowEventHandlingExt.RunWorkflowOnEmployeeChangedCode());
                 end;
 
-            WorkflowResponseHandling.SendApprovalRequestForApprovalCode:
+            WorkflowResponseHandling.SendApprovalRequestForApprovalCode():
                 begin
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode, WorkflowEventHandlingExt.RunWorkflowOnSendLeaveApplicationForApprovalCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode, WorkflowEventHandlingExt.RunWorkflowOnSendRecruitmentRequestForApprovalCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode, WorkflowEventHandlingExt.RunWorkflowOnSendTrainingRequestForApprovalCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode, WorkflowEventHandlingExt.RunWorkflowOnSendEmployeeForApprovalCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode, WorkflowEventHandlingExt.RunWorkflowOnEmployeeChangedCode);
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode(), WorkflowEventHandlingExt.RunWorkflowOnSendLeaveApplicationForApprovalCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode(), WorkflowEventHandlingExt.RunWorkflowOnSendRecruitmentRequestForApprovalCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode(), WorkflowEventHandlingExt.RunWorkflowOnSendTrainingRequestForApprovalCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode(), WorkflowEventHandlingExt.RunWorkflowOnSendEmployeeForApprovalCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.SendApprovalRequestForApprovalCode(), WorkflowEventHandlingExt.RunWorkflowOnEmployeeChangedCode());
                 end;
 
-            WorkflowResponseHandling.OpenDocumentCode:
+            WorkflowResponseHandling.OpenDocumentCode():
                 begin
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.OpenDocumentCode, WorkflowEventHandlingExt.RunWorkflowOnCancelLeaveApplicationApprovalRequestCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.OpenDocumentCode, WorkflowEventHandlingExt.RunWorkflowOnCancelRecruitmentRequestApprovalRequestCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.OpenDocumentCode, WorkflowEventHandlingExt.RunWorkflowOnCancelTrainingRequestApprovalRequestCode);
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.OpenDocumentCode, WorkflowEventHandlingExt.RunWorkflowOnCancelEmployeeApprovalRequestCode);
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.OpenDocumentCode(), WorkflowEventHandlingExt.RunWorkflowOnCancelLeaveApplicationApprovalRequestCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.OpenDocumentCode(), WorkflowEventHandlingExt.RunWorkflowOnCancelRecruitmentRequestApprovalRequestCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.OpenDocumentCode(), WorkflowEventHandlingExt.RunWorkflowOnCancelTrainingRequestApprovalRequestCode());
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.OpenDocumentCode(), WorkflowEventHandlingExt.RunWorkflowOnCancelEmployeeApprovalRequestCode());
                 end;
 
-            WorkflowResponseHandling.CancelAllApprovalRequestsCode:
+            WorkflowResponseHandling.CancelAllApprovalRequestsCode():
                 begin
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CancelAllApprovalRequestsCode, WorkflowEventHandlingExt.RunWorkflowOnCancelEmployeeApprovalRequestCode);
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.CancelAllApprovalRequestsCode(), WorkflowEventHandlingExt.RunWorkflowOnCancelEmployeeApprovalRequestCode());
                 end;
 
-            WorkflowResponseHandling.RevertValueForFieldCode:
+            WorkflowResponseHandling.RevertValueForFieldCode():
                 begin
-                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.RevertValueForFieldCode, WorkflowEventHandlingExt.RunWorkflowOnEmployeeChangedCode);
+                    WorkflowResponseHandling.AddResponsePredecessor(WorkflowResponseHandling.RevertValueForFieldCode(), WorkflowEventHandlingExt.RunWorkflowOnEmployeeChangedCode());
                 end;
         end;
     end;

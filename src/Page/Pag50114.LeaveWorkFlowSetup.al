@@ -15,14 +15,17 @@ page 50114 "Leave WorkFlow Setup"
                 field("USER ID"; Rec."USER ID")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the USER ID field.';
                 }
                 field("First Approver"; Rec."First Approver")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the First Approver field.';
                 }
                 field("Second Approver"; Rec."Second Approver")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Second Approver field.';
                 }
 
             }

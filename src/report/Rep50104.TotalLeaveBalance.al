@@ -79,6 +79,7 @@ report 50104 "Total Leave Balance"
                 field("Date Filter"; DateFilter)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the DateFilter field.';
                 }
 
             }
@@ -97,7 +98,7 @@ report 50104 "Total Leave Balance"
     trigger OnInitReport();
     begin
         SNo := 0;
-        CompanyInformation.GET;
+        CompanyInformation.GET();
     end;
 
     trigger OnPreReport();

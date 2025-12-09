@@ -13,7 +13,7 @@ report 50101 "Leave Balance"
             column(No_; "No.")
             {
             }
-            column(FullName; FullName)
+            column(FullName; FullName())
             {
             }
             column(Picture; CompanyInfo.Picture)
@@ -79,7 +79,7 @@ report 50101 "Leave Balance"
                 if "Employee Status" <> "Employee Status"::Active then
                     CurrReport.Skip();
                 IF Status <> Status::Active THEN
-                    CurrReport.SKIP;
+                    CurrReport.SKIP();
                 GetLeaveBalances("No.");
                 SNo += 1;
             end;
@@ -96,11 +96,13 @@ report 50101 "Leave Balance"
                 field("Date Filter"; DateFilter)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the DateFilter field.';
                 }
                 field(LeaveFilter; LeaveFilter)
                 {
                     //  TableRelation = "Leave Type";
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the LeaveFilter field.';
                 }
             }
         }
@@ -120,7 +122,7 @@ report 50101 "Leave Balance"
 
         //val.validateUser();
         SNo := 0;
-        CompanyInfo.GET;
+        CompanyInfo.GET();
         LeaveFilter := LeaveFilter::Annual;
 
 
@@ -156,7 +158,7 @@ report 50101 "Leave Balance"
         SNo: Integer;
         LeaveFilter: enum "Leave Type";
         LeaveType: Record "Leave Type";
-       //val: Codeunit AuditsTrails;
+    //val: Codeunit AuditsTrails;
 
     local procedure GetLeaveBalances(EmployeeNo: Code[10]);
     begin
@@ -172,7 +174,7 @@ report 50101 "Leave Balance"
     local procedure GetLeaveBalances1(EmployeeNo: Code[10]);
     begin
         LeaveType.Reset();
-        IF LeaveType.FindSet THEN
+        IF LeaveType.FindSet() THEN
             LeaveDays[1] := HRManagement.GetBalanceBroughtForward(EmployeeNo, LeaveFilter, DateFilter);
         LeaveDays[2] := HRManagement.GetEarnedLeaveDays(EmployeeNo, LeaveFilter, DateFilter);
         LeaveDays[3] := HRManagement.GetLostDays(EmployeeNo, LeaveFilter, DateFilter);

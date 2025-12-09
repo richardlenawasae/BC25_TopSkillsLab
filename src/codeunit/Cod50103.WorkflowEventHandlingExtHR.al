@@ -9,43 +9,43 @@ codeunit 50103 "Workflow Event Handling Ext HR"
     local procedure OnAddWorkflowEventPredecessorsToLibrary(EventFunctionName: Code[128])
     begin
         case EventFunctionName of
-            RunWorkflowOnCancelLeaveApplicationApprovalRequestCode:
-                WorkflowEventHandling.AddEventPredecessor(RunWorkflowOnCancelLeaveApplicationApprovalRequestCode, RunWorkflowOnSendLeaveApplicationForApprovalCode);
+            RunWorkflowOnCancelLeaveApplicationApprovalRequestCode():
+                WorkflowEventHandling.AddEventPredecessor(RunWorkflowOnCancelLeaveApplicationApprovalRequestCode(), RunWorkflowOnSendLeaveApplicationForApprovalCode());
 
-            RunWorkflowOnCancelRecruitmentRequestApprovalRequestCode:
-                WorkflowEventHandling.AddEventPredecessor(RunWorkflowOnCancelRecruitmentRequestApprovalRequestCode, RunWorkflowOnSendRecruitmentRequestForApprovalCode);
+            RunWorkflowOnCancelRecruitmentRequestApprovalRequestCode():
+                WorkflowEventHandling.AddEventPredecessor(RunWorkflowOnCancelRecruitmentRequestApprovalRequestCode(), RunWorkflowOnSendRecruitmentRequestForApprovalCode());
 
-            RunWorkflowOnCancelTrainingRequestApprovalRequestCode:
-                WorkflowEventHandling.AddEventPredecessor(RunWorkflowOnCancelTrainingRequestApprovalRequestCode, RunWorkflowOnSendTrainingRequestForApprovalCode);
+            RunWorkflowOnCancelTrainingRequestApprovalRequestCode():
+                WorkflowEventHandling.AddEventPredecessor(RunWorkflowOnCancelTrainingRequestApprovalRequestCode(), RunWorkflowOnSendTrainingRequestForApprovalCode());
 
-            RunWorkflowOnCancelEmployeeApprovalRequestCode:
-                WorkflowEventHandling.AddEventPredecessor(RunWorkflowOnCancelEmployeeApprovalRequestCode, RunWorkflowOnSendEmployeeForApprovalCode);
+            RunWorkflowOnCancelEmployeeApprovalRequestCode():
+                WorkflowEventHandling.AddEventPredecessor(RunWorkflowOnCancelEmployeeApprovalRequestCode(), RunWorkflowOnSendEmployeeForApprovalCode());
 
-            WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode:
+            WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode():
                 begin
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode, RunWorkflowOnSendLeaveApplicationForApprovalCode);
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode, RunWorkflowOnSendRecruitmentRequestForApprovalCode);
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode, RunWorkflowOnSendTrainingRequestForApprovalCode);
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode, RunWorkflowOnSendEmployeeForApprovalCode);
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode, RunWorkflowOnEmployeeChangedCode);
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode(), RunWorkflowOnSendLeaveApplicationForApprovalCode());
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode(), RunWorkflowOnSendRecruitmentRequestForApprovalCode());
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode(), RunWorkflowOnSendTrainingRequestForApprovalCode());
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode(), RunWorkflowOnSendEmployeeForApprovalCode());
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnApproveApprovalRequestCode(), RunWorkflowOnEmployeeChangedCode());
                 end;
 
-            WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode:
+            WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode():
                 begin
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnSendLeaveApplicationForApprovalCode);
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnSendRecruitmentRequestForApprovalCode);
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnSendTrainingRequestForApprovalCode);
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnSendEmployeeForApprovalCode);
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode, RunWorkflowOnEmployeeChangedCode);
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode(), RunWorkflowOnSendLeaveApplicationForApprovalCode());
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode(), RunWorkflowOnSendRecruitmentRequestForApprovalCode());
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode(), RunWorkflowOnSendTrainingRequestForApprovalCode());
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode(), RunWorkflowOnSendEmployeeForApprovalCode());
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnRejectApprovalRequestCode(), RunWorkflowOnEmployeeChangedCode());
                 end;
 
-            WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode:
+            WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode():
                 begin
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode, RunWorkflowOnSendLeaveApplicationForApprovalCode);
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode, RunWorkflowOnSendRecruitmentRequestForApprovalCode);
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode, RunWorkflowOnSendTrainingRequestForApprovalCode);
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode, RunWorkflowOnSendEmployeeForApprovalCode);
-                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode, RunWorkflowOnEmployeeChangedCode);
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode(), RunWorkflowOnSendLeaveApplicationForApprovalCode());
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode(), RunWorkflowOnSendRecruitmentRequestForApprovalCode());
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode(), RunWorkflowOnSendTrainingRequestForApprovalCode());
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode(), RunWorkflowOnSendEmployeeForApprovalCode());
+                    WorkflowEventHandling.AddEventPredecessor(WorkflowEventHandling.RunWorkflowOnDelegateApprovalRequestCode(), RunWorkflowOnEmployeeChangedCode());
                 end;
 
         end
@@ -76,7 +76,7 @@ codeunit 50103 "Workflow Event Handling Ext HR"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approvals Mgmt Ext HR", 'OnCancelLeaveApplicationApprovalRequest', '', false, false)]
     procedure RunWorkflowOnCancelLeaveApplicationApprovalRequest(var LeaveApplication: Record "Leave Application")
     begin
-        WorkflowManagement.HandleEvent(RunWorkflowOnCancelLeaveApplicationApprovalRequestCode, LeaveApplication);
+        WorkflowManagement.HandleEvent(RunWorkflowOnCancelLeaveApplicationApprovalRequestCode(), LeaveApplication);
     end;
 
 
@@ -104,7 +104,7 @@ codeunit 50103 "Workflow Event Handling Ext HR"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Release HR Document", 'OnAfterReleaseLeaveApplication', '', false, false)]
     procedure RunWorkflowOnReleaseLeaveApplication(var LeaveApplication: Record "Leave Application")
     begin
-        WorkflowManagement.HandleEvent(RunWorkflowOnReleaseLeaveApplicationApprovalRequestCode, LeaveApplication);
+        WorkflowManagement.HandleEvent(RunWorkflowOnReleaseLeaveApplicationApprovalRequestCode(), LeaveApplication);
     end;
 
 

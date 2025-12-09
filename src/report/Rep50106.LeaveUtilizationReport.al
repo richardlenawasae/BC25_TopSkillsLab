@@ -79,10 +79,10 @@ report 50106 "Leave Utilization Report"
             trigger OnAfterGetRecord();
             begin
                 if "Employee Status" <> "Employee Status"::Active then
-                    CurrReport.skip;
+                    CurrReport.skip();
                 IF Status <> Status::Active THEN
-                    CurrReport.SKIP;
-                Name := FullName;
+                    CurrReport.SKIP();
+                Name := FullName();
                 SNo += 1;
                 LeaveDays[1] := 0;
                 LeaveDays[2] := 0;
@@ -92,7 +92,7 @@ report 50106 "Leave Utilization Report"
                 LeaveDays[6] := 0;
                 LeaveDays[7] := 0;
                 LeaveDays[8] := 0;
-                GetLeaveEntitlement;
+                GetLeaveEntitlement();
                 GetLeaveBalances("No.");
                 GetLeavePlanDays("No.");
             end;
@@ -109,6 +109,7 @@ report 50106 "Leave Utilization Report"
                 field("Date Filter"; DateFilter)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the DateFilter field.';
                 }
             }
         }
@@ -124,7 +125,7 @@ report 50106 "Leave Utilization Report"
 
     trigger OnInitReport();
     begin
-        CompanyInformation.GET;
+        CompanyInformation.GET();
     end;
 
     trigger OnPreReport();
@@ -162,17 +163,17 @@ report 50106 "Leave Utilization Report"
         LeavePlan: Record "Leave Plan Header";
         LeavePlanLines: Record "Leave Plan Line";
     begin
-        LeavePlan.RESET;
+        LeavePlan.RESET();
         LeavePlan.SETRANGE(Year, DATE2DMY(TODAY, 3));
         LeavePlan.SETRANGE("Employee No", EmployeeNo);
-        IF LeavePlan.FINDLAST THEN BEGIN
-            LeavePlanLines.RESET;
+        IF LeavePlan.FINDLAST() THEN BEGIN
+            LeavePlanLines.RESET();
             LeavePlanLines.SETRANGE("No.", LeavePlan."No.");
             LeavePlanLines.SETFILTER("Start Date", '<=%1', DateFilter);
-            IF LeavePlanLines.FINDSET THEN BEGIN
+            IF LeavePlanLines.FINDSET() THEN BEGIN
                 REPEAT
                     LeaveDays[5] += LeavePlanLines.Days;
-                UNTIL LeavePlanLines.NEXT = 0;
+                UNTIL LeavePlanLines.NEXT() = 0;
             END;
         END;
     end;
@@ -181,9 +182,9 @@ report 50106 "Leave Utilization Report"
     var
         LeaveType: Record "Leave Type";
     begin
-        LeaveType.RESET;
+        LeaveType.RESET();
         LeaveType.SETRANGE("Annual Leave", TRUE);
-        IF LeaveType.FINDFIRST THEN;
+        IF LeaveType.FINDFIRST() THEN;
         LeaveDays[3] := LeaveType.Days;
     end;
 }

@@ -14,18 +14,22 @@ page 50110 "Employee Plan Line"
                 field(Days; Rec.Days)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Days field.';
                 }
                 field("Start Date"; Rec."Start Date")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Start Date field.';
                 }
                 field("End Date"; Rec."End Date")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the End Date field.';
                 }
                 field(Balance; Rec.Balance)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Balance field.';
                 }
             }
         }
@@ -39,6 +43,7 @@ page 50110 "Employee Plan Line"
             {
                 Image = ResetStatus;
                 ApplicationArea = All;
+                ToolTip = 'Executes the Reset Plan action.';
 
                 trigger OnAction();
                 begin

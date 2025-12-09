@@ -5,6 +5,7 @@ page 50115 "Headline RC HR"
     Caption = 'Headline';
     PageType = HeadlinePart;
     RefreshOnActivate = true;
+    ApplicationArea = All;
 
     layout
     {
@@ -17,11 +18,13 @@ page 50115 "Headline RC HR"
                     ApplicationArea = Basic, Suite;
                     Caption = 'Greeting headline';
                     Editable = false;
+                    ToolTip = 'Specifies the value of the Greeting headline field.';
                 }
                 field(GreetingText; StrSubstNo(Text000, UserId))
                 {
                     ApplicationArea = All;
                     Editable = false;
+                    ToolTip = 'Specifies the value of the StrSubstNo(Text000, UserId) field.';
                 }
             }
             group(Control2)
@@ -31,6 +34,7 @@ page 50115 "Headline RC HR"
                     ApplicationArea = All;
                     DrillDown = true;
                     Editable = false;
+                    ToolTip = 'Specifies the value of the StrSubstNo(Text001, EmployeeCount) field.';
                     trigger OnDrillDown();
                     begin
                         Employee.Reset();
@@ -48,6 +52,7 @@ page 50115 "Headline RC HR"
                     ApplicationArea = All;
                     DrillDown = true;
                     Editable = false;
+                    ToolTip = 'Specifies the value of the StrSubstNo(Text002, LeaveCount) field.';
                 }
             }
             group(Control4)
@@ -58,6 +63,7 @@ page 50115 "Headline RC HR"
                     ApplicationArea = All;
                     DrillDown = true;
                     Editable = false;
+                    ToolTip = 'Specifies the value of the StrSubstNo(Text003, BirthdayCount) field.';
                 }
             }
             group(Control5)
@@ -68,6 +74,7 @@ page 50115 "Headline RC HR"
                     ApplicationArea = All;
                     DrillDown = true;
                     Editable = false;
+                    ToolTip = 'Specifies the value of the StrSubstNo(Text004, ProbationCount) field.';
                 }
             }
             group(Control6)
@@ -78,6 +85,7 @@ page 50115 "Headline RC HR"
                     ApplicationArea = All;
                     DrillDown = true;
                     Editable = false;
+                    ToolTip = 'Specifies the value of the Name) field.';
                 }
             }
         }
@@ -87,7 +95,7 @@ page 50115 "Headline RC HR"
     begin
         GetEmployees();
         LeaveTodayCount();
-        CompanyInfo.Get;
+        CompanyInfo.Get();
 
         RCHeadlinesPageCommon.HeadlineOnOpenPage(Page::"Headline RC Order Processor");
         DefaultFieldsVisible := RCHeadlinesPageCommon.AreDefaultFieldsVisible();

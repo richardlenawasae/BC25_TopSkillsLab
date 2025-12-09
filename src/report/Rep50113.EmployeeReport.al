@@ -84,18 +84,18 @@ report 50113 "Employee Report"
             trigger OnAfterGetRecord();
             begin
                 serialno += 1;
-                Name := FullName;
+                Name := FullName();
 
                 IF YearFilter <> 0 THEN BEGIN
                     if Status = Status::Active THEN BEGIN
                         IF "Employment Date" = 0D THEN
-                            CurrReport.SKIP
+                            CurrReport.SKIP()
                         ELSE
                             IF STRLEN(FORMAT(YearFilter)) <> 4 THEN
                                 ERROR('Invalid Year')
                             ELSE
                                 IF DATE2DMY("Employment Date", 3) <> YearFilter THEN
-                                    CurrReport.SKIP;
+                                    CurrReport.SKIP();
                     END ELSE
                         CurrReport.Skip();
                 END;
@@ -113,6 +113,7 @@ report 50113 "Employee Report"
                 field("Year"; YearFilter)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the YearFilter field.';
                 }
             }
         }
@@ -128,7 +129,7 @@ report 50113 "Employee Report"
 
     trigger OnInitReport();
     begin
-        CompanyInformation.GET;
+        CompanyInformation.GET();
         CompanyInformation.CALCFIELDS(Picture);
     end;
 

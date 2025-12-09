@@ -92,7 +92,7 @@ report 50111 "Staff Due For Leave"
             trigger OnAfterGetRecord();
             begin
                 IF "Approved Start Date" < TODAY THEN
-                    CurrReport.SKIP;
+                    CurrReport.SKIP();
             end;
         }
     }
@@ -115,7 +115,7 @@ report 50111 "Staff Due For Leave"
 
     trigger OnInitReport();
     begin
-        CompanyInformation.GET;
+        CompanyInformation.GET();
     end;
 
     trigger OnPreReport();

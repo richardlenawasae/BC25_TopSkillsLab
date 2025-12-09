@@ -90,7 +90,7 @@ report 50107 "Leave Summary Report"
                 trigger OnAfterGetRecord();
                 BEGIN
                     IF Status <> Status::Released THEN
-                        CurrReport.SKIP;
+                        CurrReport.SKIP();
 
                     RemainingDays := GetLeaveBalance("Employee No.", "Leave Code");
                 END;
@@ -128,7 +128,7 @@ report 50107 "Leave Summary Report"
     }
     trigger OnInitReport();
     begin
-        CompanyInformation.GET;
+        CompanyInformation.GET();
     end;
 
     trigger OnPreReport();
@@ -146,7 +146,7 @@ report 50107 "Leave Summary Report"
 
     procedure GetLeaveBalance(EmployeeNo: Code[100]; LeaveCode: enum "Leave Type"): Decimal;
     begin
-        LeaveLedgerEntry.RESET;
+        LeaveLedgerEntry.RESET();
         LeaveLedgerEntry.SETRANGE(LeaveLedgerEntry."Leave Code", LeaveCode);
         LeaveLedgerEntry.SETRANGE(LeaveLedgerEntry."Employee No.", EmployeeNo);
         LeaveLedgerEntry.SETRANGE("Entry Type", LeaveLedgerEntry."Entry Type"::Positive);
@@ -155,7 +155,7 @@ report 50107 "Leave Summary Report"
                 NoofPosLeaves += LeaveLedgerEntry.Days;
             until LeaveLedgerEntry.Next() = 0;
         end;
-        LeaveLedgerEntry.RESET;
+        LeaveLedgerEntry.RESET();
         LeaveLedgerEntry.SETRANGE(LeaveLedgerEntry."Leave Code", LeaveCode);
         LeaveLedgerEntry.SETRANGE(LeaveLedgerEntry."Employee No.", EmployeeNo);
         LeaveLedgerEntry.SETRANGE("Entry Type", LeaveLedgerEntry."Entry Type"::Negative);

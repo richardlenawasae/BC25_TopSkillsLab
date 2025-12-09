@@ -61,7 +61,7 @@ report 50108 "Summary Leave"
     }
     trigger OnInitReport();
     begin
-        CompanyInformation.GET;
+        CompanyInformation.GET();
     end;
 
     trigger OnPreReport();

@@ -14,42 +14,52 @@ page 50102 "Leave Application Card"
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the No. field.';
                 }
                 field("Employee No"; Rec."Employee No.")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Employee No. field.';
                 }
                 field("Application Date"; Rec."Application Date")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Application Date field.';
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Employee Name field.';
                 }
                 field("Mobile No"; Rec."Mobile No.")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Mobile No. field.';
                 }
                 field(Branch; Rec."Branch Code")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Branch Code field.';
                 }
                 field("Job Title"; Rec."Job Title")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Job Title field.';
                 }
                 field(Department; Rec.Department)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Department field.';
                 }
                 field("Employment Date"; Rec."Employment Date")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Employment Date field.';
                 }
                 field("Leave Code"; Rec."Leave Code")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Leave Code field.';
                     trigger OnValidate()
                     begin
                         LeaveTypes.reset();
@@ -65,11 +75,13 @@ page 50102 "Leave Application Card"
                 }
                 field("Reason for Leave"; Rec."Reason for Leave")
                 {
+                    ToolTip = 'Specifies the value of the Reason for Leave field.';
 
                 }
                 field("User ID"; Rec."User ID")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the User ID field.';
                 }
             }
             group("Current Application")
@@ -78,24 +90,29 @@ page 50102 "Leave Application Card"
                 field("Start Date"; Rec."Start Date")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Start Date field.';
                 }
                 field("Days Applied"; Rec."Days Applied")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Days Applied field.';
                 }
                 field("End Date"; Rec."End Date")
                 {
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the End Date field.';
                 }
                 field("Resumption Date"; Rec."Resumption Date")
                 {
                     Editable = true;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Resumption Date field.';
                 }
                 field("Duties Taken Over By"; Rec."Duties Taken Over By")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Duties Taken Over By field.';
                 }
                 /* field("Duties Taken Over By (2)"; "Duties Taken Over By (2)")
                  {
@@ -110,10 +127,12 @@ page 50102 "Leave Application Card"
                 {
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Status field.';
                 }
                 field("Leave Allowance Payable"; Rec."Leave Allowance Payable")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Leave Allowance Payable field.';
                 }
             }
             group("First Approval")
@@ -124,36 +143,43 @@ page 50102 "Leave Application Card"
                 field("Approved Start Date"; Rec."Approved Start Date")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Approved Start Date field.';
                 }
 
                 field("Approved End Date"; Rec."Approved End Date")
                 {
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Approved End Date field.';
                 }
                 field("First Approver"; Rec."First Approver")
                 {
                     ApplicationArea = All;
                     Visible = false;
+                    ToolTip = 'Specifies the value of the First Approver field.';
 
                 }
                 field("1st Approval Comment"; Rec."1st Approval Comment")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the 1st Approval Comment field.';
                 }
                 field("Date First Approved"; Rec."Date First Approved")
                 {
                     Visible = false;
+                    ToolTip = 'Specifies the value of the Date First Approved field.';
                 }
                 field("No of Approvals"; Rec."No of Approvals")
                 {
                     ApplicationArea = All;
                     Editable = False;
                     Visible = false;
+                    ToolTip = 'Specifies the value of the No of Approvals field.';
                 }
                 field("Approver 1 Days"; Rec."Approver 1 Days")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Approver 1 Days field.';
                 }
             }
             group("Second Approval")
@@ -165,19 +191,23 @@ page 50102 "Leave Application Card"
                 {
                     ApplicationArea = All;
                     Visible = false;
+                    ToolTip = 'Specifies the value of the Second Approver field.';
                 }
                 field("2nd Approval Comment"; Rec."2nd Approval Comment")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the 2nd Approval Comment field.';
                 }
                 field("Date Second Approved"; Rec."Date Second Approved")
                 {
                     ApplicationArea = All;
                     Visible = false;
+                    ToolTip = 'Specifies the value of the Date Second Approved field.';
                 }
                 field("Approver 2 Days"; Rec."Approver 2 Days")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Approver 2 Days field.';
                 }
             }
             group(Balances)
@@ -185,14 +215,17 @@ page 50102 "Leave Application Card"
                 field("Leave Earned to Date"; Rec."Leave Earned to Date")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Leave Earned to Date field.';
                 }
                 field("Balance brought forward"; Rec."Balance brought forward")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Balance Brought Forward field.';
                 }
                 field("Recalled Days"; Rec."Recalled Days")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Recalled Days field.';
                 }
                 /* field("Lost Days"; "Lost Days")
                  {
@@ -201,10 +234,12 @@ page 50102 "Leave Application Card"
                 field("Total Leave Days Taken"; Rec."Total Leave Days Taken")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Total Leave Days Taken field.';
                 }
                 field("Leave balance"; Rec."Leave balance")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Leave balance field.';
                 }
             }
         }
@@ -238,7 +273,7 @@ page 50102 "Leave Application Card"
 
                 trigger OnAction();
                 var
-                ApprovalsMgmt: Codeunit "Approvals Mgmt Ext HR";
+                    ApprovalsMgmt: Codeunit "Approvals Mgmt Ext HR";
                 begin
                     if Rec."Days Applied" <> 0 then begin
                         IF CONFIRM('Are you sure you want to send this leave application for approval?') THEN BEGIN
@@ -246,7 +281,7 @@ page 50102 "Leave Application Card"
                             //TestField("Reason for Leave");
                             Rec."First Stage approval" := true;
                             Rec.Modify();
-                            if ApprovalsMgmt.CheckLeaveApplicationApprovalPossible(Rec) then 
+                            if ApprovalsMgmt.CheckLeaveApplicationApprovalPossible(Rec) then
                                 ApprovalsMgmt.OnSendLeaveApplicationForApproval(Rec);
 
                         END;
@@ -268,9 +303,9 @@ page 50102 "Leave Application Card"
                 Visible = ShowCancelApprovalRequest;
                 trigger OnAction()
                 var
-                ApprovalsMgmt: Codeunit "Approvals Mgmt Ext HR";
+                    ApprovalsMgmt: Codeunit "Approvals Mgmt Ext HR";
                 begin
-                    ApprovalsMgmt.OnCancelLeaveApplicationApprovalRequest(Rec); 
+                    ApprovalsMgmt.OnCancelLeaveApplicationApprovalRequest(Rec);
                 end;
             }
             action(Approvals)
@@ -304,6 +339,7 @@ page 50102 "Leave Application Card"
                 PromotedOnly = true;
                 Visible = ShowApprove;
                 ApplicationArea = All;
+                ToolTip = 'Executes the Approve action.';
 
                 trigger OnAction();
                 BEGIN
@@ -480,6 +516,7 @@ page 50102 "Leave Application Card"
                 PromotedIsBig = true;
                 PromotedOnly = true;
                 Visible = false;
+                ToolTip = 'Executes the Print Leave Form action.';
                 trigger OnAction();
                 begin
                     LeaveApplication.RESET();
@@ -676,9 +713,9 @@ page 50102 "Leave Application Card"
         LeaveTypes.SETRANGE(code, Rec."Leave Code");
         LeaveTypes.SetRange("Attachment required", TRUE);
         if LeaveTypes.FindFirst() then begin
-            CBSAttachment.RESET;
+            CBSAttachment.RESET();
             CBSAttachment.SETRANGE("Document No.", Rec."No.");
-            IF NOT CBSAttachment.FINDFIRST THEN BEGIN
+            IF NOT CBSAttachment.FINDFIRST() THEN BEGIN
                 ERROR('Kindly attach supporting documents');
             end;
         end;

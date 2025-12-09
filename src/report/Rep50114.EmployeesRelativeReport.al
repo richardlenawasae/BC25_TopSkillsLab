@@ -48,7 +48,7 @@ report 50114 "Employees Relative Report"
     }
     trigger OnInitReport();
     begin
-        CompanyInformation.GET;
+        CompanyInformation.GET();
         CompanyInformation.CALCFIELDS(Picture);
     end;
 

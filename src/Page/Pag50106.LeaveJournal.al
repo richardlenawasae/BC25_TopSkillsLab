@@ -13,29 +13,35 @@ page 50106 "Leave Journal"
             {
                 field(Select; Rec.Select)
                 {
+                    ToolTip = 'Specifies the value of the Select field.';
 
                 }
                 field("Entry No"; Rec."Entry No")
                 {
                     Visible = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Entry No field.';
                 }
                 field("Posting Date"; Rec."Posting Date")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Posting Date field.';
                 }
                 field("Document No"; Rec."Document No")
                 {
                     Visible = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Document No field.';
                 }
                 field("Leave Period"; Rec."Leave Period")
                 {
                     //  Visible = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Leave Period field.';
                 }
                 field("Employee No."; Rec."Employee No.")
                 {
+                    ToolTip = 'Specifies the value of the Employee No. field.';
 
                     trigger OnValidate();
                     begin
@@ -47,17 +53,21 @@ page 50106 "Leave Journal"
                     Caption = 'Employee Name';
                     Editable = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Employee Name field.';
                 }
                 field(Description; Rec.Description)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Description field.';
                 }
                 field("Leave Type"; Rec."Leave Type")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Leave Type field.';
                 }
                 field("Leave Entry Type"; Rec."Leave Entry Type")
                 {
+                    ToolTip = 'Specifies the value of the Leave Entry Type field.';
 
                 }
 
@@ -65,10 +75,12 @@ page 50106 "Leave Journal"
                 {
                     Visible = false;
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Entry Type field.';
                 }
                 field(Days; Rec.Days)
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Days field.';
                 }
             }
         }
@@ -86,6 +98,7 @@ page 50106 "Leave Journal"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                ToolTip = 'Executes the Accrue Annul Leave action.';
 
                 trigger OnAction();
                 begin
@@ -104,6 +117,7 @@ page 50106 "Leave Journal"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                ToolTip = 'Executes the Generate Brought Forward Days action.';
 
                 trigger OnAction();
                 begin
@@ -119,6 +133,7 @@ page 50106 "Leave Journal"
                 PromotedCategory = Process;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                ToolTip = 'Executes the Post Leave Data action.';
 
                 trigger OnAction();
                 begin

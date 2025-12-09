@@ -62,9 +62,9 @@ report 50110 "Used Leave days Report"
             begin
 
                 IF "Approved End Date" > TODAY THEN
-                    CurrReport.SKIP;
+                    CurrReport.SKIP();
                 IF Format("Approved End Date") = '' then
-                    CurrReport.SKIP;
+                    CurrReport.SKIP();
             end;
 
         }
@@ -72,7 +72,7 @@ report 50110 "Used Leave days Report"
 
     trigger OnInitReport();
     begin
-        CompanyInformation.GET;
+        CompanyInformation.GET();
     end;
 
     trigger OnPreReport();

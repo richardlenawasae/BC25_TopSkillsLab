@@ -38,9 +38,9 @@ table 50100 "Leave Application"
                         Error('You have an existing new leave application');
 
                     "Employee Name" := Employee.FullName();
-                    "Branch Code" := Employee."Global Dimension 1 Code";
-                    "Job Title" := Employee."Employee Job Title";
-                    Department := Employee.Department;
+                    "Job Title" := Employee."Job Title";
+                    Department := Employee."Global Dimension 1 Code";
+                    "Branch Code" := Employee."Global Dimension 2 Code";
                     "Employment Date" := Employee."Employment Date";
                     "Mobile No." := Employee."Mobile Phone No.";
                 END;
@@ -78,7 +78,7 @@ table 50100 "Leave Application"
 
             trigger OnValidate();
             begin
-                // "Leave balance" := "Balance brought forward" + "Leave Earned to Date" + "Recalled Days" + "Added Back Days" - "Total Leave Days Taken";
+                 //"Leave balance" := "Balance brought forward" + "Leave Earned to Date" + "Recalled Days" + "Added Back Days" - "Total Leave Days Taken";
             end;
         }
 
@@ -147,7 +147,7 @@ table 50100 "Leave Application"
         }
         field(22; "Leave Code"; enum "Leave Type")
         {
-            // TableRelation = "Leave Type" WHERE(Status = FILTER(Active));
+            //TableRelation = "Leave Type" WHERE(Status = FILTER(Active));
 
             trigger OnValidate();
             var

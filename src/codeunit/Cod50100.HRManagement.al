@@ -671,25 +671,29 @@ codeunit 50100 "HR Management"
     //         Error('Kindly setup an active appraisal year');
     // end;
 
-    // procedure CreateAuditTrail(var Employee: Record Employee); //LENAWASAE
-    // var
-    //     ApprovalEntry: Record 454;
-    //     WorkflowRecordChange: Record "Workflow - Record Change";
-    //     RecRef: RecordRef;
-    //     EmployeeHRAuditTrail: Record "Employee HR Audit Trail";
-    // begin
-    //     WITH Employee DO BEGIN
-    //         EmployeeHRAuditTrail.INIT;
-    //         EmployeeHRAuditTrail."User ID" := USERID;
-    //         EmployeeHRAuditTrail.Type := EmployeeHRAuditTrail.Type::Change;
-    //         EmployeeHRAuditTrail."Employee No" := "No.";
-    //         EmployeeHRAuditTrail."Employee Name" := Employee.FullName();
-    //         EmployeeHRAuditTrail."Change Date" := TODAY;
-    //         EmployeeHRAuditTrail."Change Time" := TIME;
-    //         EmployeeHRAuditTrail.Status := EmployeeHRAuditTrail.Status::"Approval Pending";
-    //         EmployeeHRAuditTrail.INSERT(TRUE);
-    //     END;
-    // end;
+    procedure CreateAuditTrail(var Employee: Record Employee); //LENAWASAE
+    var
+        EmployeeHRAuditTrail: Record "HR Audit Trail";
+        RecRef: RecordRef;
+        TableId: Integer;
+    begin
+        RecRef.GetTable(Employee);
+        TableId := RecRef.Number();
+
+        WITH Employee DO BEGIN
+            EmployeeHRAuditTrail.INIT;
+            EmployeeHRAuditTrail.UserId := USERID;
+            EmployeeHRAuditTrail."Type of Change" := EmployeeHRAuditTrail."Type of Change"::Modify;
+            // EmployeeHRAuditTrail.NO:= "No.";
+            // EmployeeHRAuditTrail."Employee Name" := Employee.FullName();
+            EmployeeHRAuditTrail."Change Date" := TODAY;
+            EmployeeHRAuditTrail."Change Time" := TIME;
+            EmployeeHRAuditTrail.Status := EmployeeHRAuditTrail.Status::"Pending Approval";
+            EmployeeHRAuditTrail."Table ID" := RecRef.Number();
+            EmployeeHRAuditTrail."Table Name" := Employee.TableName;
+            EmployeeHRAuditTrail.INSERT(TRUE);
+        END;
+    end;
 
     // procedure UpdateAuditTrail(WorkflowStepInstance: Record "Workflow Step Instance"; Stage: Integer);
     // var
@@ -1103,7 +1107,7 @@ codeunit 50100 "HR Management"
         EntryNo: Integer;
     begin
         CBSAttachment2.Reset();
-        IF CBSAttachment2.FINDLAST THEN
+        IF CBSAttachment2.FINDLAST() THEN
             EntryNo := CBSAttachment2."Entry No."
         ELSE
             EntryNo := 0;
@@ -1113,7 +1117,7 @@ codeunit 50100 "HR Management"
         CBSAttachment."Document No." := DocumentNo;
         CBSAttachment."File Name" := FileName;
         CBSAttachment.Attachment.IMPORT(FileName);
-        CBSAttachment.INSERT;
+        CBSAttachment.INSERT();
     end;
 
     procedure CreateWithoutAttachmentMessage(SenderName: Text; SenderAddress: Text; Recipients: Text; Subject: Text; Body: Text)
