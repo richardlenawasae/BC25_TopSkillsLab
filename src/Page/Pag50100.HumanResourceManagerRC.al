@@ -133,6 +133,14 @@ page 50100 "Human Resource Manager RC"
                     ApplicationArea = All;
                     ToolTip = 'Executes the Approval User Setup action.';
                 }
+                action("Base Calendar Setup")
+                {
+                    Caption = 'Base Calendar Setup';
+                    RunObject = page "Base Calendar List";
+                    Image = Setup;
+                    ApplicationArea = All;
+                    ToolTip = 'Executes the Base Calendar Setup action.';
+                }
             }
             group(Tasks)
             {
