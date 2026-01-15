@@ -7,7 +7,7 @@ page 50122 "Approved Leave App"
     ModifyAllowed = false;
     PageType = List;
     SourceTable = "Leave Application";
-    SourceTableView = WHERE(Status = FILTER(Released));
+    SourceTableView = WHERE(Status = FILTER(Approved));
     UsageCategory = Lists;
     ApplicationArea = all;
 

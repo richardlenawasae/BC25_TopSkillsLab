@@ -60,6 +60,7 @@ page 50132 "Staff Leave Application Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Leave Code field.';
+                    ShowMandatory = true;
                     trigger OnValidate()
                     begin
                         LeaveTypes.reset();
@@ -86,11 +87,13 @@ page 50132 "Staff Leave Application Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Start Date field.';
+                    ShowMandatory = true;
                 }
                 field("Days Applied"; Rec."Days Applied")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Days Applied field.';
+                    ShowMandatory = true;
                 }
                 field("End Date"; Rec."End Date")
                 {
@@ -98,11 +101,12 @@ page 50132 "Staff Leave Application Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the End Date field.';
                 }
-                /*  field("Resumption Date"; "Resumption Date")
-                  {
-                      Editable = false;
-                      ApplicationArea = All;
-                  }*/
+                field("Resumption Date"; Rec."Resumption Date")
+                {
+                    Editable = false;
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Resumption Date field.';
+                }
                 field("Duties Taken Over By"; Rec."Duties Taken Over By")
                 {
                     ApplicationArea = All;
@@ -112,11 +116,14 @@ page 50132 "Staff Leave Application Card"
                  {
                      ApplicationArea = All;
                  }
-
-                 field("Reason for Leave"; "Reason for Leave")
-                 {
-                     ApplicationArea = All;
-                 }*/
+                 */
+                field("Reason for Leave"; Rec."Reason for Leave")
+                {
+                    ApplicationArea = All;
+                    MultiLine = true;
+                    ShowMandatory = true;
+                    ToolTip = 'Specifies the value of the Reason for Leave field.';
+                }
                 field(Status; Rec.Status)
                 {
                     Editable = false;
@@ -259,6 +266,8 @@ page 50132 "Staff Leave Application Card"
                     IF CONFIRM('Are you sure you want to send this leave application for approval?') THEN BEGIN
                         CheckAttachment();
                         Rec.Status := Rec.Status::"Pending Approval";
+                        Rec."First Stage approval" := true;
+                        Rec."Second Stage approval" := false;
                         Rec.MODIFY;
                         HRManagement.NotifyMember(Rec);
                         HRManagement.NotifyFirstApprover(Rec);
@@ -284,7 +293,6 @@ page 50132 "Staff Leave Application Card"
                     ApprovalsMgmt: Codeunit "Approvals Mgmt Ext HR";
                     WorkflowWebhookMgt: Codeunit "Workflow Webhook Management";
                 begin
-
                     Rec.Status := Rec.Status::Rejected;
                     Message('Leave Cancelled Successfully');
                     CurrPage.CLOSE();

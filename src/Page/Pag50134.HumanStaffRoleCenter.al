@@ -35,11 +35,11 @@ page 50134 "Human Staff Role Center"
                 ApplicationArea = Basic, Suite;
                 Visible = false;
             }
-            part(Control21; "Report Inbox Part")
-            {
-                AccessByPermission = TableData "Report Inbox" = R;
-                ApplicationArea = Suite;
-            }
+            // part(Control21; "Report Inbox Part")
+            // {
+            //     AccessByPermission = TableData "Report Inbox" = R;
+            //     ApplicationArea = Suite;
+            // }
             systempart(Control1901377608; MyNotes)
             {
                 ApplicationArea = Basic, Suite;
@@ -67,6 +67,7 @@ page 50134 "Human Staff Role Center"
             {
                 Caption = 'My Staff Card';
                 RunObject = Page "Staff List";
+                ToolTip = 'Executes the My Staff Card action.';
             }
             action("Absence Registration")
             {
@@ -83,24 +84,28 @@ page 50134 "Human Staff Role Center"
                 Caption = 'My Staff Card';
                 RunObject = Page "Staff List";
                 ApplicationArea = All;
+                ToolTip = 'Executes the My Staff Card action.';
             }
             action("Staff Leave List")
             {
                 Caption = 'Staff Leave List';
                 RunObject = Page "Staff Leave List";
                 ApplicationArea = All;
+                ToolTip = 'Executes the Staff Leave List action.';
             }
             action("Staff Leave Pending Approval")
             {
                 Caption = 'Leave Pending Approval';
                 RunObject = Page "Staff Leave Pending Approval";
                 ApplicationArea = All;
+                ToolTip = 'Executes the Leave Pending Approval action.';
             }
             action("Approved Leave Application")
             {
                 Caption = 'My Approved Leaves';
                 RunObject = Page "Approved Leave Application";
                 ApplicationArea = All;
+                ToolTip = 'Executes the My Approved Leaves action.';
             }
             separator(Administration)
             {

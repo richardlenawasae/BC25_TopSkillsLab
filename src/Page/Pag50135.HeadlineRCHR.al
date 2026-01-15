@@ -24,11 +24,14 @@ page 50135 "Headline Staff RC HR"
                 {
                     ApplicationArea = All;
                     Editable = false;
+                    ToolTip = 'Specifies the value of the StrSubstNo(Text000, UserId) field.';
                 }
                 field(TodayLeaveDays; StrSubstNo(Text002, EmployeeRec."Leave Days"))
                 {
                     ApplicationArea = All;
-                    Editable = false;;
+                    Editable = false;
+                    ;
+                    ToolTip = 'Specifies the value of the Leave Days) field.';
                 }
             }
 

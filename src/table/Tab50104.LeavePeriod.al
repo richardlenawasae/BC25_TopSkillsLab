@@ -39,9 +39,11 @@ table 50104 "Leave Period"
         }
         field(6; "Reimbursement Closing Date"; Boolean)
         {
+            DataClassification = CustomerContent;
         }
         field(8; "Period Code"; Code[10])
         {
+            DataClassification = CustomerContent;
         }
     }
 

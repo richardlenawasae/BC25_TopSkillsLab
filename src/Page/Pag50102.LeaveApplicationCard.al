@@ -114,15 +114,15 @@ page 50102 "Leave Application Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Duties Taken Over By field.';
                 }
-                /* field("Duties Taken Over By (2)"; "Duties Taken Over By (2)")
-                 {
-                     ApplicationArea = All;
-                 }
+                //  field("Duties Taken Over By (2)"; "Duties Taken Over By (2)")
+                //  {
+                //      ApplicationArea = All;
+                //  }
 
-                 field("Reason for Leave"; "Reason for Leave")
-                 {
-                     ApplicationArea = All;
-                 }*/
+                //  field("Reason for Leave"; "Reason for Leave")
+                //  {
+                //      ApplicationArea = All;
+                //  }
                 field(Status; Rec.Status)
                 {
                     Editable = false;
@@ -139,7 +139,7 @@ page 50102 "Leave Application Card"
             {
                 Editable = Approver1LeaveDays;
                 Visible = ShowApprovalComment;
-
+                Caption = 'Approval Section';
                 field("Approved Start Date"; Rec."Approved Start Date")
                 {
                     ApplicationArea = All;
@@ -155,7 +155,8 @@ page 50102 "Leave Application Card"
                 field("First Approver"; Rec."First Approver")
                 {
                     ApplicationArea = All;
-                    Visible = false;
+                    Visible = true;
+                    Editable = false;
                     ToolTip = 'Specifies the value of the First Approver field.';
 
                 }
@@ -163,6 +164,9 @@ page 50102 "Leave Application Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the 1st Approval Comment field.';
+                    Caption = 'Approval Comment';
+                    MultiLine = true;
+                    ShowMandatory = true;
                 }
                 field("Date First Approved"; Rec."Date First Approved")
                 {
@@ -180,36 +184,38 @@ page 50102 "Leave Application Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Approver 1 Days field.';
+                    Caption = 'Approver Days';
+                    ShowMandatory = true;
                 }
             }
-            group("Second Approval")
-            {
-                //Editable = EditApprovalComments;
+            // group("Second Approval")
+            // {
+            //     //Editable = EditApprovalComments;
 
-                Visible = ShowApprovalComments;
-                field("Second Approver"; Rec."Second Approver")
-                {
-                    ApplicationArea = All;
-                    Visible = false;
-                    ToolTip = 'Specifies the value of the Second Approver field.';
-                }
-                field("2nd Approval Comment"; Rec."2nd Approval Comment")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the 2nd Approval Comment field.';
-                }
-                field("Date Second Approved"; Rec."Date Second Approved")
-                {
-                    ApplicationArea = All;
-                    Visible = false;
-                    ToolTip = 'Specifies the value of the Date Second Approved field.';
-                }
-                field("Approver 2 Days"; Rec."Approver 2 Days")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Approver 2 Days field.';
-                }
-            }
+            //     Visible = ShowApprovalComments;
+            //     field("Second Approver"; Rec."Second Approver")
+            //     {
+            //         ApplicationArea = All;
+            //         Visible = false;
+            //         ToolTip = 'Specifies the value of the Second Approver field.';
+            //     }
+            //     field("2nd Approval Comment"; Rec."2nd Approval Comment")
+            //     {
+            //         ApplicationArea = All;
+            //         ToolTip = 'Specifies the value of the 2nd Approval Comment field.';
+            //     }
+            //     field("Date Second Approved"; Rec."Date Second Approved")
+            //     {
+            //         ApplicationArea = All;
+            //         Visible = false;
+            //         ToolTip = 'Specifies the value of the Date Second Approved field.';
+            //     }
+            //     field("Approver 2 Days"; Rec."Approver 2 Days")
+            //     {
+            //         ApplicationArea = All;
+            //         ToolTip = 'Specifies the value of the Approver 2 Days field.';
+            //     }
+            // }
             group(Balances)
             {
                 field("Leave Earned to Date"; Rec."Leave Earned to Date")
@@ -264,10 +270,10 @@ page 50102 "Leave Application Card"
                 ApplicationArea = Basic, Suite;
                 Caption = 'Send A&pproval Request';
                 Image = SendApprovalRequest;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
+                // Promoted = true;
+                // PromotedCategory = Process;
+                // PromotedIsBig = true;
+                // PromotedOnly = true;
                 ToolTip = 'Request approval of the document.';
                 Visible = ShowSendForApproval;
 
@@ -279,10 +285,15 @@ page 50102 "Leave Application Card"
                         IF CONFIRM('Are you sure you want to send this leave application for approval?') THEN BEGIN
                             CheckAttachment();
                             //TestField("Reason for Leave");
-                            Rec."First Stage approval" := true;
+                            Rec.TestField(Status, Rec.Status::Open);
+                            //Rec."First Stage approval" := true;
+                            Rec.Status := Rec.Status::"Pending Approval";
+                            Rec."Leave Approval Status" := Rec."Leave Approval Status"::"Pending Approval";
                             Rec.Modify();
-                            if ApprovalsMgmt.CheckLeaveApplicationApprovalPossible(Rec) then
-                                ApprovalsMgmt.OnSendLeaveApplicationForApproval(Rec);
+                            NotifyApprover;
+                            InsertLeaveApprovalEntry(Rec);
+                            // if ApprovalsMgmt.CheckLeaveApplicationApprovalPossible(Rec) then
+                            //     ApprovalsMgmt.OnSendLeaveApplicationForApproval(Rec);
 
                         END;
                     end else begin
@@ -291,30 +302,13 @@ page 50102 "Leave Application Card"
                     CurrPage.CLOSE();
                 END;
             }
-            action(CancelApprovalRequest)
-            {
-                ApplicationArea = Basic, Suite;
-                Caption = 'Cancel Approval Re&quest';
-                Image = CancelApprovalRequest;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                ToolTip = 'Cancel the approval request.';
-                Visible = ShowCancelApprovalRequest;
-                trigger OnAction()
-                var
-                    ApprovalsMgmt: Codeunit "Approvals Mgmt Ext HR";
-                begin
-                    ApprovalsMgmt.OnCancelLeaveApplicationApprovalRequest(Rec);
-                end;
-            }
             action(Approvals)
             {
                 ApplicationArea = Suite;
                 Caption = 'Approvals';
                 Image = Approvals;
-                Promoted = true;
-                PromotedCategory = Process;
+                // Promoted = true;
+                // PromotedCategory = Process;
                 ToolTip = 'View a list of the records that are waiting to be approved. For example, you can see who requested the record to be approved, when it was sent, and when it is due to be approved.';
                 trigger OnAction()
                 var
@@ -325,18 +319,18 @@ page 50102 "Leave Application Card"
                 begin
                     ApprovalEntries.SetRecordFilters(Database::"Leave Application", DocumentType::" ", Rec."No.");
                     ApprovalEntries.Run();
-                    Rec."Second Stage approval" := true;
+                    Rec."First Stage approval" := true;
+                    Rec."Second Stage approval" := false;
                     Rec.Modify();
                 end;
             }
-
             action(Approve)
             {
                 Image = Approve;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
+                // Promoted = true;
+                // PromotedCategory = Process;
+                // PromotedIsBig = true;
+                // PromotedOnly = true;
                 Visible = ShowApprove;
                 ApplicationArea = All;
                 ToolTip = 'Executes the Approve action.';
@@ -346,130 +340,204 @@ page 50102 "Leave Application Card"
                     Rec.TestField("Approved Days");
                     Rec.TestField("Approved Start Date");
                     Rec.TestField("Approved End Date");
-
+                    Rec.TestField("1st Approval Comment");
                     if Confirm('Do you want to approve this request?') then begin
-                        IF (Rec.Status = Rec.Status::"Pending Approval") and Rec."First Stage approval" = true THEN BEGIN
-                            Rec.TestField("Approver 1 Days");
-                        end;
-                        IF (Rec.Status = Rec.Status::"Pending Approval") and Rec."Second Stage approval" = true THEN BEGIN
-                            Rec.TestField("Approver 2 Days");
-                        end;
-                        Rec."Second Stage approval" := true;
-                        Rec.Modify();
-                        ApprovalsMgmt.ApproveRecordApprovalRequest(Rec.RecordId);
-                        /* LeaveWorkflowSetup.RESET;
-                        LeaveWorkflowSetup.SETRANGE("User ID", "User ID");
-                        IF LeaveWorkflowSetup.FINDFIRST THEN BEGIN
-                            IF NOT "First Stage approval" THEN BEGIN
-                                IF LeaveWorkflowSetup."Second Approver" <> '' THEN begIN
-                                    "First Stage approval" := true;
-                                    Modify;
-                                    HRManagement.NotifyMemberOnSecondApprover(Rec);
-                                    HRManagement.NotifySecondApprover(Rec);
-                                    MESSAGE('Leave application has been forwarded to the second approver.');
-                                END;
-                            END ELSE BEGIN 
-                                Status := Status::Released;
-                                "Second Stage approval" := true;
-                                MODIFY;
-                                HRManagement.NotifyMemberApproval(Rec);
-                                HRManagement.NotifyHR(Rec);
-                                MESSAGE('Leave application has been approved successfully!');
-                                LeaveLedgerEntry.Reset();
-                                HRManagement.InsertLeaveLedgerEntry(FORMAT(DATE2DMY(TODAY, 3)), "No.", "Employee No.", "Leave Code", "Reason for Leave", "Approved Days", LeaveLedgerEntry."Entry Type"::Negative, FALSE, FALSE, FALSE, FALSE, FALSE, false); */
-                        //END;
-                        //END;
-                        /*  IF LeaveWorkflowSetup."First Approver" = "First Approver" THEN BEGIN
-                              IF LeaveWorkflowSetup."Second Approver" <> '' THEN BEGIN
-                                  "Second Approver" := LeaveWorkflowSetup."Second Approver";
-                                  MODIFY;
-                                  MESSAGE('Leave application has been forwarded to the second approver.');
-                              END ELSE BEGIN
-                                  Status := Status::Released;
-                                  MESSAGE('Leave application has been approved successfully!23');
-                              END;
+                        LeaveWorkflowSetup.RESET();
+                        LeaveWorkflowSetup.SETRANGE("User ID", Rec."User ID");
+                        IF LeaveWorkflowSetup.FINDFIRST() THEN BEGIN
+                            // IF NOT Rec."First Stage approval" THEN BEGIN
+                            //     IF LeaveWorkflowSetup."Second Approver" <> '' THEN begIN
+                            //         Rec."First Stage approval" := true;
+                            //         Rec.Modify;
+                            //         HRManagement.NotifyMemberOnSecondApprover(Rec);
+                            //         HRManagement.NotifySecondApprover(Rec);
+                            //         MESSAGE('Leave application has been forwarded to the second approver.');
+                            //     END else begin
+                            //         Rec.Status := Rec.Status::Released;
+                            //         Rec.Status := Rec.Status::Approved;
+                            //         Rec."Second Stage approval" := true;
+                            //         Rec."First Stage approval" := true;
+                            //         Rec.MODIFY;
+                            //         HRManagement.NotifyMemberApproval(Rec);
+                            //         HRManagement.NotifyHR(Rec);
+                            //         MESSAGE('Leave application has been approved successfully!');
+                            //         LeaveLedgerEntry.Reset();
+                            //         HRManagement.InsertLeaveLedgerEntry(FORMAT(DATE2DMY(TODAY, 3)), Rec."No.", Rec."Employee No.", Rec."Leave Code", Format(Rec."Leave Code"), Rec."Approved Days", LeaveLedgerEntry."Entry Type"::Negative, FALSE, FALSE, FALSE, FALSE, FALSE, false);
+                            //     END;
+                            // END ELSE BEGIN
+                            IF Rec."First Approver" = '' THEN
+                                exit;
+
+                            Rec.Status := Rec.Status::Released;
+                            Rec.Status := Rec.Status::Approved;
+                            Rec."Second Stage approval" := false;
+                            Rec.MODIFY;
+                            HRManagement.NotifyMemberApproval(Rec);
+                            HRManagement.NotifyHR(Rec);
+                            MESSAGE('Leave application has been approved successfully!');
+                            LeaveLedgerEntry.Reset();
+                            HRManagement.InsertLeaveLedgerEntry(FORMAT(DATE2DMY(TODAY, 3)), Rec."No.", Rec."Employee No.", Rec."Leave Code", Format(Rec."Leave Code"), Rec."Approved Days", LeaveLedgerEntry."Entry Type"::Negative, FALSE, FALSE, FALSE, FALSE, FALSE, false);
+                            //END;
+                        END else
+                            Error('Approval Leave Workflow is NOT setup. Please contact HR Admin.');
+                    END;
+                    CurrPage.CLOSE();
+
+                    // if Confirm('Do you want to approve this request?') then begin
+
+                    //     // Check if the requester is the same as the approver
+                    //     // if Rec.SystemCreatedBy = UserId then
+                    //     //     Error('You are not allowed to approve your own leave request.');
+
+                    //     Rec.Status := Rec.Status::Approved;
+                    //     Rec."Leave Approval Status" := Rec."Leave Approval Status"::Approved;
+                    //     Rec.Modify(true);
+                    //NotifyEmployeeLeaveApproved;
+
+                    // IF (Rec.Status = Rec.Status::"Pending Approval") and Rec."First Stage approval" = true THEN BEGIN
+                    //     Rec.TestField("Approver 1 Days");
+                    // end;
+                    // IF (Rec.Status = Rec.Status::"Pending Approval") and Rec."Second Stage approval" = true THEN BEGIN
+                    //     Rec.TestField("Approver 2 Days");
+                    // end;
+                    // Rec."Second Stage approval" := true;
+                    // Rec.Modify();
+                    //ApprovalsMgmt.ApproveRecordApprovalRequest(Rec.RecordId);
+                    /* LeaveWorkflowSetup.RESET;
+                    LeaveWorkflowSetup.SETRANGE("User ID", "User ID");
+                    IF LeaveWorkflowSetup.FINDFIRST THEN BEGIN
+                        IF NOT "First Stage approval" THEN BEGIN
+                            IF LeaveWorkflowSetup."Second Approver" <> '' THEN begIN
+                                "First Stage approval" := true;
+                                Modify;
+                                HRManagement.NotifyMemberOnSecondApprover(Rec);
+                                HRManagement.NotifySecondApprover(Rec);
+                                MESSAGE('Leave application has been forwarded to the second approver.');
+                            END;
+                        END ELSE BEGIN 
+                            Status := Status::Released;
+                            "Second Stage approval" := true;
+                            MODIFY;
+                            HRManagement.NotifyMemberApproval(Rec);
+                            HRManagement.NotifyHR(Rec);
+                            MESSAGE('Leave application has been approved successfully!');
+                            LeaveLedgerEntry.Reset();
+                            HRManagement.InsertLeaveLedgerEntry(FORMAT(DATE2DMY(TODAY, 3)), "No.", "Employee No.", "Leave Code", "Reason for Leave", "Approved Days", LeaveLedgerEntry."Entry Type"::Negative, FALSE, FALSE, FALSE, FALSE, FALSE, false); */
+                    //END;
+                    //END;
+                    /*  IF LeaveWorkflowSetup."First Approver" = "First Approver" THEN BEGIN
+                          IF LeaveWorkflowSetup."Second Approver" <> '' THEN BEGIN
+                              "Second Approver" := LeaveWorkflowSetup."Second Approver";
+                              MODIFY;
+                              MESSAGE('Leave application has been forwarded to the second approver.');
                           END ELSE BEGIN
-                              IF LeaveWorkflowSetup."Second Approver" = "Second Approver" THEN BEGIN
-                                  Status := Status::Released;
-                                  MODIFY;
-                                  MESSAGE('Leave application has been approved successfully!24');
-                              END
+                              Status := Status::Released;
+                              MESSAGE('Leave application has been approved successfully!23');
                           END;
+                      END ELSE BEGIN
+                          IF LeaveWorkflowSetup."Second Approver" = "Second Approver" THEN BEGIN
+                              Status := Status::Released;
+                              MODIFY;
+                              MESSAGE('Leave application has been approved successfully!24');
+                          END
                       END;
-                      /* LeaveWorkflowSetup.RESET;
-                       LeaveWorkflowSetup.SETRANGE("User ID", "User ID");
-                       IF LeaveWorkflowSetup.FINDFIRST THEN BEGIN
-                           IF LeaveWorkflowSetup."First Approver" = "First Approver" THEN BEGIN
-                               IF LeaveWorkflowSetup."Second Approver" <> '' THEN BEGIN
-                                   IF NOT "First Stage approval" THEN BEGIN
-                                       "First Stage approval" := TRUE;
-                                       MODIFY;
-                                       MESSAGE('Leave application has been forwarded to the second approver.');
-                                   END;
+                  END;
+                  /* LeaveWorkflowSetup.RESET;
+                   LeaveWorkflowSetup.SETRANGE("User ID", "User ID");
+                   IF LeaveWorkflowSetup.FINDFIRST THEN BEGIN
+                       IF LeaveWorkflowSetup."First Approver" = "First Approver" THEN BEGIN
+                           IF LeaveWorkflowSetup."Second Approver" <> '' THEN BEGIN
+                               IF NOT "First Stage approval" THEN BEGIN
+                                   "First Stage approval" := TRUE;
+                                   MODIFY;
+                                   MESSAGE('Leave application has been forwarded to the second approver.');
+                               END;
+                           END;
+                       END ELSE
+                           IF LeaveWorkflowSetup."Second Approver" = "Second Approver" THEN BEGIN
+                               Message('Noted');
+                               IF NOT "First Stage approval" THEN BEGIN
+                                   "Second Stage approval" := TRUE;
+                                   Status := Status::Released;
+                                   MODIFY;
+                                   LeaveLedgerEntry.Reset();
+                                   HRManagement.InsertLeaveLedgerEntry(FORMAT(DATE2DMY(TODAY, 3)), "No.", "Employee No.", "Leave Code", "Leave Code", "Approved Days", LeaveLedgerEntry."Entry Type"::Negative, FALSE, FALSE, FALSE, FALSE, FALSE);
+                                   MESSAGE('Leave application approved successfully');
                                END;
                            END ELSE
-                               IF LeaveWorkflowSetup."Second Approver" = "Second Approver" THEN BEGIN
+                               IF LeaveWorkflowSetup.Substitute = "User ID" THEN BEGIN
                                    Message('Noted');
-                                   IF NOT "First Stage approval" THEN BEGIN
-                                       "Second Stage approval" := TRUE;
-                                       Status := Status::Released;
-                                       MODIFY;
-                                       LeaveLedgerEntry.Reset();
-                                       HRManagement.InsertLeaveLedgerEntry(FORMAT(DATE2DMY(TODAY, 3)), "No.", "Employee No.", "Leave Code", "Leave Code", "Approved Days", LeaveLedgerEntry."Entry Type"::Negative, FALSE, FALSE, FALSE, FALSE, FALSE);
-                                       MESSAGE('Leave application approved successfully');
-                                   END;
-                               END ELSE
-                                   IF LeaveWorkflowSetup.Substitute = "User ID" THEN BEGIN
-                                       Message('Noted');
-                                       Status := Status::Released;
-                                       MODIFY;
-                                       LeaveLedgerEntry.Reset();
-                                       HRManagement.InsertLeaveLedgerEntry(FORMAT(DATE2DMY(TODAY, 3)), "No.", "Employee No.", "Leave Code", "Leave Code", "Approved Days", LeaveLedgerEntry."Entry Type"::Negative, FALSE, FALSE, FALSE, FALSE, FALSE);
-                                       MESSAGE('Leave application approved successfully Substitute');
-                                   END;
-                       END;*/
-                        // IF Status = Status::Released THEN
-                        //     EXIT;
-                        // IF Status = Status::"Pending Approval" THEN BEGIN
-                        //     Status := Status::Released;
-                        //     IF MODIFY(TRUE) THEN BEGIN
-                        //         // MESSAGE(Text000, Text006, "Employee No.");
-                        //         if "Approver 2 Days" <> 0 then begin
-                        //             ApprovedDays := "Approver 2 Days";
-                        //         end else begin
-                        //             ApprovedDays := "Approved Days";
-                        //         end;
-                        //         LeaveLedgerEntry.Reset();
-                        //         HRManagement.InsertLeaveLedgerEntry(FORMAT(DATE2DMY(TODAY, 3)), "No.", "Employee No.", "Leave Code", Format("Leave Code"), ApprovedDays, LeaveLedgerEntry."Entry Type"::Negative, FALSE, FALSE, FALSE, FALSE, FALSE, false);
-                        //     END;
-                        // END;
-
-                    end;
-                    CurrPage.CLOSE();
+                                   Status := Status::Released;
+                                   MODIFY;
+                                   LeaveLedgerEntry.Reset();
+                                   HRManagement.InsertLeaveLedgerEntry(FORMAT(DATE2DMY(TODAY, 3)), "No.", "Employee No.", "Leave Code", "Leave Code", "Approved Days", LeaveLedgerEntry."Entry Type"::Negative, FALSE, FALSE, FALSE, FALSE, FALSE);
+                                   MESSAGE('Leave application approved successfully Substitute');
+                               END;
+                   END;*/
+                    // IF Status = Status::Released THEN
+                    //     EXIT;
+                    // IF Status = Status::"Pending Approval" THEN BEGIN
+                    //     Status := Status::Released;
+                    //     IF MODIFY(TRUE) THEN BEGIN
+                    //         // MESSAGE(Text000, Text006, "Employee No.");
+                    //         if "Approver 2 Days" <> 0 then begin
+                    //             ApprovedDays := "Approver 2 Days";
+                    //         end else begin
+                    //             ApprovedDays := "Approved Days";
+                    //         end;
+                    //         LeaveLedgerEntry.Reset();
+                    //         HRManagement.InsertLeaveLedgerEntry(FORMAT(DATE2DMY(TODAY, 3)), "No.", "Employee No.", "Leave Code", Format("Leave Code"), ApprovedDays, LeaveLedgerEntry."Entry Type"::Negative, FALSE, FALSE, FALSE, FALSE, FALSE, false);
+                    //     END;
+                    // END;
                 END;
             }
             action(Reject)
             {
                 ApplicationArea = Suite;
-                Caption = 'Reject';
+                Caption = 'Reject Re&quest';
                 Image = Reject;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
+                // Promoted = true;
+                // PromotedCategory = Process;
+                // PromotedIsBig = true;
+                // PromotedOnly = true;
                 Scope = Repeater;
                 ToolTip = 'Reject the approval request.';
-                Visible = OpenApprovalEntriesExistForCurrUser;
+                Visible = ShowReject;
                 trigger OnAction()
                 var
                     ConfirmRejectMsg: Label 'Are you sure you want to reject this approval request?';
                     ApprovalsMgmt: Codeunit "Approvals Mgmt.";
-                    RejectSuccessMsg: Label 'Rejected successfully';
+                    RejectSuccessMsg: Label 'Leave Rejected successfully';
                 begin
                     if Confirm(ConfirmRejectMsg) then begin
-                        ApprovalsMgmt.RejectRecordApprovalRequest(Rec.RecordId);
+                        //ApprovalsMgmt.RejectRecordApprovalRequest(Rec.RecordId);
+                        Rec.Status := Rec.Status::Rejected;
+                        Rec.Modify(true);
+                        Message(RejectSuccessMsg);
                         CurrPage.Close();
                     end;
+                end;
+            }
+            action(CancelApprovalRequest)
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Cancel Approval Re&quest';
+                Image = CancelApprovalRequest;
+                // Promoted = true;
+                // PromotedCategory = Process;
+                // PromotedIsBig = true;
+                ToolTip = 'Cancel the approval request.';
+                Visible = ShowCancelApprovalRequest;
+                trigger OnAction()
+                var
+                    ApprovalsMgmt: Codeunit "Approvals Mgmt Ext HR";
+                    CancelSuccessMsg: Label 'Leave Cancelled Successfully';
+                begin
+                    //ApprovalsMgmt.OnCancelLeaveApplicationApprovalRequest(Rec);
+                    Rec.Status := Rec.Status::Canceled;
+                    Rec.Modify(true);
+                    Message(CancelSuccessMsg);
+                    CurrPage.Close();
                 end;
             }
             action(Delegate)
@@ -477,9 +545,9 @@ page 50102 "Leave Application Card"
                 ApplicationArea = All;
                 Caption = 'Delegate';
                 Image = Delegate;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedOnly = true;
+                // Promoted = true;
+                // PromotedCategory = Process;
+                // PromotedOnly = true;
                 ToolTip = 'Delegate the approval to a substitute approver.';
                 Visible = OpenApprovalEntriesExistForCurrUser;
 
@@ -495,11 +563,11 @@ page 50102 "Leave Application Card"
                 ApplicationArea = All;
                 Caption = 'Comments';
                 Image = ViewComments;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedOnly = true;
+                // Promoted = true;
+                // PromotedCategory = Process;
+                // PromotedOnly = true;
                 ToolTip = 'View or add comments for the record.';
-                Visible = OpenApprovalEntriesExistForCurrUser;
+                Visible = ShowApprovalComment;
 
                 trigger OnAction()
                 var
@@ -511,10 +579,10 @@ page 50102 "Leave Application Card"
             action("Print Leave Form")
             {
                 Image = Form;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
+                // Promoted = true;
+                // PromotedCategory = Process;
+                // PromotedIsBig = true;
+                // PromotedOnly = true;
                 Visible = false;
                 ToolTip = 'Executes the Print Leave Form action.';
                 trigger OnAction();
@@ -525,6 +593,33 @@ page 50102 "Leave Application Card"
                         //REPORT.RUN(Report::"Loan Repament Schedule", TRUE, FALSE, LeaveApplication);
                     END;
                 end;
+            }
+        }
+        area(Promoted)
+        {
+            actionref(SendLeaveApprovalRequest_Home; SendLeaveApprovalRequest)
+            {
+            }
+            actionref(Approvals_Home; Approvals)
+            {
+            }
+            actionref(Approve_Home; Approve)
+            {
+            }
+            actionref(Reject_Home; Reject)
+            {
+            }
+            actionref(CancelApprovalRequest_Home; CancelApprovalRequest)
+            {
+            }
+            actionref(Delegate_Home; Delegate)
+            {
+            }
+            actionref(Comment_Home; Comment)
+            {
+            }
+            actionref(PrintLeaveForm_Home; "Print Leave Form")
+            {
             }
         }
     }
@@ -559,12 +654,13 @@ page 50102 "Leave Application Card"
 
     trigger OnAfterGetCurrRecord()
     begin
-        SetApprovalVisibility();
+        Visibility();
+        //SetApprovalVisibility();
     end;
 
     trigger OnAfterGetRecord()
     begin
-        SetApprovalVisibility();
+        //SetApprovalVisibility();
     end;
     // trigger OnAfterGetCurrRecord()
     // begin
@@ -592,8 +688,6 @@ page 50102 "Leave Application Card"
         EditDetails: Boolean;
         noofapprovals: Decimal;
         HRManagement: Codeunit "HR Management";
-        Email: Codeunit 8901;
-        EmailMessage: Codeunit 8904;
         ShowApprovalComments: Boolean;
         EditApprovalComment: Boolean;
         EditApprovalComments: Boolean;
@@ -606,9 +700,37 @@ page 50102 "Leave Application Card"
         Approver2LeaveDays: Boolean;
         Approver2GroupEditability: Boolean;
         OpenApprovalEntriesExistForCurrUser: Boolean;
+        SMTP: Codeunit "Email Message";
+        EmailSend: Codeunit Email;
 
     local procedure Visibility();
     begin
+        UserSetup.Get(UserId);
+
+        // IF (Rec.Status = Rec.Status::"Pending Approval") and (Rec."First Stage approval" = false) THEN BEGIN
+        //     IF UserSetup."User ID" = Rec."First Approver" THEN BEGIN
+        //         ShowSendForApproval := FALSE;
+        //         ShowCancelApprovalRequest := FALSE;
+        //         ShowApprovalComment := true;
+        //         EditApprovalComment := false;
+        //         EditDetails := false;
+        //         ShowReject := true;
+        //         ShowApprove := true;
+        //         ShowApprovalComments := true;
+        //         EditApprovalComments := true;
+        //     END ELSE BEGIN
+        //         ShowSendForApproval := FALSE;
+        //         ShowCancelApprovalRequest := FALSE;
+        //         ShowApprovalComment := true;
+        //         EditApprovalComment := false;
+        //         EditDetails := false;
+        //         ShowReject := false;
+        //         ShowApprove := false;
+        //         ShowApprovalComments := false;
+        //         EditApprovalComments := false;
+        //     END;
+        // END;
+
         IF Rec.Status = Rec.Status::Open THEN BEGIN
             CurrPage.EDITABLE(TRUE);
             ShowSendForApproval := true;
@@ -680,7 +802,7 @@ page 50102 "Leave Application Card"
             ShowReject := FALSE;
             ShowApprove := FALSE;
         END;
-        if Rec.Status = Rec.Status::Released THEN BEGIN
+        if Rec.Status = Rec.Status::Approved THEN BEGIN
             ShowApprovalComment := true;
             EditApprovalComment := false;
             EditDetails := false;
@@ -769,6 +891,141 @@ page 50102 "Leave Application Card"
         WorkflowWebhookMgt: Codeunit "Workflow Webhook Management";
     begin
         //OpenApprovalEntriesExistForCurrUser := ApprovalsMgmt.HasOpenApprovalEntriesForCurrentUser(RecordId);
+    end;
+
+    procedure InsertLeaveApprovalEntry(Leave: Record "Leave Application")
+    var
+        ApprovalEntry: Record "Approval Entry";
+        UserSetup: Record "User Setup";
+    begin
+        if UserSetup."Approval Administrator" then
+            exit;
+        UserSetup.Get(UserId);
+        UserSetup.TestField("Approver ID");
+
+        ApprovalEntry.Init();
+        ApprovalEntry."Table ID" := Database::"Leave Application";
+        ApprovalEntry."Document No." := Leave."No.";
+        ApprovalEntry."Document Type" := ApprovalEntry."Document Type"::" ";
+        ApprovalEntry."Sequence No." := 1;
+        ApprovalEntry."Sender ID" := UserId;
+        ApprovalEntry."Approver ID" := UserSetup."Approver ID";
+        ApprovalEntry.Status := ApprovalEntry.Status::Open;
+        ApprovalEntry."Approval Type" := ApprovalEntry."Approval Type"::Approver;
+        ApprovalEntry."Date-Time Sent for Approval" := CurrentDateTime;
+        ApprovalEntry.Insert(true);
+    end;
+
+    procedure NotifyApprover()
+    var
+        Email: Codeunit Email;
+        UserRec: Record "User Setup";
+        Subject: Text;
+        Body: Text;
+        Employee: Record Employee;
+        Users: Record User;
+        UserRecApprover: Record "User Setup";
+        ApproverEmail: Text;
+        ApproverUserSetup: Record "User Setup";
+        SupervisorEmployee: Record Employee;
+    begin
+
+        // Validate employee
+        if not Employee.Get(Rec."Employee No.") then
+            Error('Employee %1 not found.', Rec."Employee No.");
+
+        if Employee."Supervisor ID" = '' then
+            Error('You are not assigned to your Supervisor in the system, please contact HR Admin.');
+
+        // Get approval setup for logged-in user
+        ApproverUserSetup.SetRange("User ID", UserId);
+        if not ApproverUserSetup.FindFirst() then
+            Error('No approval setup found for user %1.', UserId);
+
+        // Skip if approval administrator
+        if ApproverUserSetup."Approval Administrator" then
+            exit;
+
+        // Validate approver
+        if UserRec.Get(UserId) then
+            if UserRec."Approver ID" = '' then
+                Error('Approver %1 does not exist. Please contact HR Admin.', UserRec."Approver ID");
+
+        SupervisorEmployee.Reset();
+        SupervisorEmployee.SetRange("No.", Employee."Supervisor ID");
+        if SupervisorEmployee.FindFirst() then begin
+            if SupervisorEmployee."Company E-Mail" = '' then
+                Error('Approver %1 does not have an email address.', SupervisorEmployee."First Name");
+            ApproverEmail := SupervisorEmployee."Company E-Mail";
+        end;
+
+        Subject := 'Leave Approval Request';
+        Body :=
+            StrSubstNo(
+                'Dear %1,<br><br>' +
+                'Leave request <b>%2</b> requires your approval.<br><br>' +
+                'Please log in to Business Central to review and approve it.<br><br>' +
+                'Regards,<br>Human Resource  System',
+                Employee."First Name" + ' ' + Employee."Last Name",
+                Rec."No.");
+
+        // Create email message
+        SMTP.Create(
+            ApproverEmail,
+            Subject,
+            Body,
+            true); // HTML enabled
+
+        // Send email
+        if EmailSend.Send(SMTP, Enum::"Email Scenario"::Default) then
+            Message('Leave approval email sent to your Supervisor successfully.');
+    end;
+
+    procedure NotifyEmployeeLeaveApproved()
+    var
+        Employee: Record Employee;
+        Subject: Text;
+        Body: Text;
+        ApproverUserSetup: Record "User Setup";
+        EmployeeApprover: Record Employee;
+    begin
+        // Validate employee
+        if not Employee.Get(Rec."Employee No.") then
+            Error('Employee record not found.');
+
+        if Employee."Company E-Mail" = '' then
+            Error(
+                'Employee %1 does not have an email address. Please contact HR Admin.',
+                Employee."No.");
+
+        ApproverUserSetup.Get(UserId);
+
+        EmployeeApprover.Reset();
+        EmployeeApprover.SetRange("No.", ApproverUserSetup."Employee No.");
+        if EmployeeApprover.FindFirst() then
+            Error('You cannot approve your own Leave');
+
+        Subject := 'Leave Approved';
+
+        Body :=
+            StrSubstNo(
+                'Dear %1,<br><br>' +
+                'Your leave request <b>%2</b> has been <b>approved</b>.<br><br>' +
+                'You may log in to Business Central for further details.<br><br>' +
+                'Regards,<br>Human Resource System',
+                Employee."First Name" + ' ' + Employee."Last Name",
+                Rec."No.");
+
+        // Create email message
+        SMTP.Create(
+            Employee."Company E-Mail",
+            Subject,
+            Body,
+            true); // HTML enabled
+
+        // Send email
+        if EmailSend.Send(SMTP, Enum::"Email Scenario"::Default) then
+            Message('Leave approval notification sent to the employee successfully.');
     end;
 
 }

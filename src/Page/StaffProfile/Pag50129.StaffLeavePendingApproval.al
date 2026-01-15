@@ -70,6 +70,7 @@ page 50129 "Staff Leave Pending Approval"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the First Approver field.';
+                    Caption = 'Assigned Approver';
                 }
                 field("First Stage approval"; Rec."First Stage approval")
                 {
@@ -80,11 +81,13 @@ page 50129 "Staff Leave Pending Approval"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Second Approver field.';
+                    Visible = false;
                 }
                 field("Second Stage approval"; Rec."Second Stage approval")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Second Stage approval field.';
+                    Visible = false;
                 }
             }
         }

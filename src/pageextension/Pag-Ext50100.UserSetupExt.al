@@ -11,6 +11,11 @@ pageextension 50100 UserSetupExt extends "User Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Employee No. field.';
             }
+            field("HR Approval Admin"; Rec."HR Approval Admin")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the HR Approver field.';
+            }
             field("Global Dimension 1 Code"; Rec."Global Dimension 1 Code")
             {
                 ApplicationArea = All;

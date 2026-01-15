@@ -79,7 +79,6 @@ page 50128 "Staff Leave List"
     end;
 
     var
-
         UserSetup: Record "User Setup";
 }
 

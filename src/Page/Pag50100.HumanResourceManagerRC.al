@@ -14,6 +14,7 @@ page 50100 "Human Resource Manager RC"
             }
             part(Activities; HRCuePage)
             {
+                Caption = 'Human Resource Activities';
                 ApplicationArea = All;
             }
             // part("Report Inbox Part"; "Report Inbox Part")
@@ -48,34 +49,34 @@ page 50100 "Human Resource Manager RC"
             {
                 ApplicationArea = Suite;
             }
-            part(Control1907692008; "My Customers")
-            {
-                ApplicationArea = Basic, Suite;
-            }
-            part(Control1; "Trailing Sales Orders Chart")
-            {
-                AccessByPermission = TableData "Sales Shipment Header" = R;
-                ApplicationArea = Basic, Suite;
-            }
+            // part(Control1907692008; "My Customers")
+            // {
+            //     ApplicationArea = Basic, Suite;
+            // }
+            // part(Control1; "Trailing Sales Orders Chart")
+            // {
+            //     AccessByPermission = TableData "Sales Shipment Header" = R;
+            //     ApplicationArea = Basic, Suite;
+            // }
             part(Control4; "My Job Queue")
             {
                 ApplicationArea = Basic, Suite;
                 Visible = false;
             }
-            part(Control1905989608; "My Items")
-            {
-                AccessByPermission = TableData "My Item" = R;
-                ApplicationArea = Basic, Suite;
-            }
+            // part(Control1905989608; "My Items")
+            // {
+            //     AccessByPermission = TableData "My Item" = R;
+            //     ApplicationArea = Basic, Suite;
+            // }
             part(PowerBIEmbeddedReportPart; "Power BI Embedded Report Part")
             {
                 ApplicationArea = Basic, Suite;
             }
-            part(Control21; "Report Inbox Part")
-            {
-                AccessByPermission = TableData "Report Inbox" = R;
-                ApplicationArea = Suite;
-            }
+            // part(Control21; "Report Inbox Part")
+            // {
+            //     AccessByPermission = TableData "Report Inbox" = R;
+            //     ApplicationArea = Suite;
+            // }
             systempart(Control1901377608; MyNotes)
             {
                 ApplicationArea = Basic, Suite;
@@ -107,6 +108,30 @@ page 50100 "Human Resource Manager RC"
                     Image = Setup;
                     ApplicationArea = All;
                     ToolTip = 'Executes the HR Setup action.';
+                }
+                action("User Setup")
+                {
+                    Caption = 'User Setup';
+                    RunObject = page "User Setup";
+                    Image = Setup;
+                    ApplicationArea = All;
+                    ToolTip = 'Executes the User Setup action.';
+                }
+                action("Leave WorkFlow Setup")
+                {
+                    Caption = 'Leave WorkFlow Setup';
+                    RunObject = page "Leave WorkFlow Setup";
+                    Image = Setup;
+                    ApplicationArea = All;
+                    ToolTip = 'Executes the Leave WorkFlow Setup action.';
+                }
+                action("Approval User Setup")
+                {
+                    Caption = 'Approval User Setup';
+                    RunObject = page "Approval User Setup";
+                    Image = Setup;
+                    ApplicationArea = All;
+                    ToolTip = 'Executes the Approval User Setup action.';
                 }
             }
             group(Tasks)
@@ -315,17 +340,23 @@ page 50100 "Human Resource Manager RC"
                         ToolTip = 'Executes the Leave Application 2nd Pending Approval action.';
 
                     }
-                    action("Approved Leave")
+                    action("Approved Leaves")
                     {
                         RunObject = Page "Approved Leave App";
                         ApplicationArea = All;
                         ToolTip = 'Executes the Approved Leave action.';
                     }
-                    action("Rejected Leave")
+                    action("Rejected Leaves")
                     {
                         RunObject = Page "Rejected  Leave Application";
                         ApplicationArea = All;
                         ToolTip = 'Executes the Rejected Leave action.';
+                    }
+                    action("Canceled Leaves")
+                    {
+                        RunObject = Page "Canceled Leave Application";
+                        ApplicationArea = All;
+                        ToolTip = 'Executes the Canceled Leave action.';
                     }
                     action("Leave Ledger Entry")
                     {

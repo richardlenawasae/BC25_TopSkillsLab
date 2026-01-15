@@ -1130,36 +1130,55 @@ codeunit 50100 "HR Management"
         Email.Send(Mail, Enum::"Email Scenario"::Default);
     end;
 
+    procedure CreateWithoutAttachmentMessageBCC(SenderName: Text; SenderAddress: Text; Recipients: Text; BCC: Text; Subject: Text; Body: Text)
+    var
+        Mail: Codeunit "Email Message";
+        Email: Codeunit Email;
+    begin
+        //Recipients := 'josephine.machage@tangazoletu.com';
+        Mail.Create(Recipients, Subject, Body, true);
+        Email.Send(Mail, Enum::"Email Scenario"::Default);
+    end;
+
     procedure NotifyMember(LeaveApplication: Record "Leave Application")
     var
         mailheader: Text;
         Mailbody: Text;
         Sendername: Text;
         Text0001: Label 'LEAVE APPLICATION REQUEST: %1';
-        Text0002: Label 'Dear %1 <br><br> Your Leave Application Request No<b> %2 </b> for %3 days from %4 to %5 has been forwarded to <b>%6 </b> for approval.<br><br> Kind Regards,<br><br> Human Resources Department<br><br> %7 <br><br>';
+        Text0002: Label 'Dear %1 <br><br> Your Leave Application Request No<b> %2 </b> for %3 days from %4 to %5 has been forwarded to %6<b>%6 </b> for approval.<br><br> Kind Regards,<br><br> Human Resources Department<br><br> %7 <br> %8';
         SenderAddress: Text;
         Recipients: Text;
         HRSetup: Record "Human Resources Setup";
         Employee: Record Employee;
         Leaveworkflow: Record "Leave WorkFlow Setup";
         UserSetup: Record "User Setup";
-    //Default: Codeunit "Default Management";
+        //Default: Codeunit "Default Management";
+        CompanyInfo: Record "Company Information";
+        UserSetupRec: Record "User Setup";
+        EmployeeRec: Record Employee;
     begin
         Dialogue.Open('Sending Mail to Employee Notifying him/her of the leave application');
+        CompanyInfo.GET;
+        CompanyInfo.CalcFields(Picture);
         HRSetup.GET();
         HRSetup.TestField("HR E-Mail");
         Employee.Reset();
         Employee.Get(LeaveApplication."Employee No.");
-        // UserSetup.GET(LeaveApplication."Employee No.");
+        //UserSetup.GET(LeaveApplication."Employee No.");
         UserSetup.RESET();
         UserSetup.SETRANGE("Employee No.", LeaveApplication."Employee No.");
         if UserSetup.findfirst() then begin
             Recipients := UserSetup."E-Mail";
         end;
-        // Recipients := Employee."E-mail";
+
+        UserSetupRec.Get(LeaveApplication."First Approver");
+        EmployeeRec.Get(UserSetupRec."Employee No.");
+
+        //Recipients := Employee."E-mail";
         SenderAddress := HRSetup."HR E-Mail";
         mailheader := StrSubstNo(Text0001, LeaveApplication."No.");
-        Mailbody := StrSubstNo(Text0002, LeaveApplication."Employee Name", LeaveApplication."No.", LeaveApplication."Days Applied", LeaveApplication."Start Date", LeaveApplication."End Date", LeaveApplication."First Approver");
+        Mailbody := StrSubstNo(Text0002, LeaveApplication."Employee Name", LeaveApplication."No.", LeaveApplication."Days Applied", LeaveApplication."Start Date", LeaveApplication."End Date", EmployeeRec.FullName(), CompanyInfo.Name, CompanyInfo.Picture);
         CreateWithoutAttachmentMessage(Sendername, SenderAddress, Recipients, mailheader, Mailbody);
         Dialogue.Close();
     end;
@@ -1170,23 +1189,26 @@ codeunit 50100 "HR Management"
         Mailbody: Text;
         Sendername: Text;
         Text0001: Label 'LEAVE APPLICATION REQUEST : %1';
-        Text0002: Label 'The following leave application request has been forwarded to you for approval. <br><br> Leave Application No <b> %1:%2 </b> for %3-%4 who has applied for %5 days from <b>%6</b> to <b>%7</b>.<br><br> Kind Regards,<br><br> %8 <br><br>';
+        Text0002: Label 'The following leave application request has been forwarded to you for approval. <br><br> Leave Application No <b> %1:%2 </b> for %3-%4 who has applied for %5 days from <b>%6</b> to <b>%7</b>.<br><br> Kind Regards,<br><br> %8 <br> %9';
         SenderAddress: Text;
         Recipients: Text;
         HRSetup: Record "Human Resources Setup";
         Employee: Record Employee;
         Leaveworkflow: Record "Leave WorkFlow Setup";
         UserSetup: Record "User Setup";
-    //Default: Codeunit "Default Management";
+        //Default: Codeunit "Default Management";
+        CompanyInfo: Record "Company Information";
     begin
         Dialogue.Open('Sending Mail to the first approver Notifying him/her of the leave application');
+        CompanyInfo.Get();
+        CompanyInfo.CalcFields(Picture);
         HRSetup.GET();
         HRSetup.TestField("HR E-Mail");
         UserSetup.GET(LeaveApplication."First Approver");
         Recipients := UserSetup."E-Mail";
         SenderAddress := HRSetup."HR E-Mail";
         mailheader := StrSubstNo(Text0001, LeaveApplication."No.");
-        Mailbody := StrSubstNo(Text0002, LeaveApplication."No.", LeaveApplication."Leave Code", LeaveApplication."Employee No.", LeaveApplication."Employee Name", LeaveApplication."Approved Days", LeaveApplication."Approved Start Date", LeaveApplication."Approved End Date");
+        Mailbody := StrSubstNo(Text0002, LeaveApplication."No.", LeaveApplication."Leave Code", LeaveApplication."Employee No.", LeaveApplication."Employee Name", LeaveApplication."Approved Days", LeaveApplication."Approved Start Date", LeaveApplication."Approved End Date", CompanyInfo.Name, CompanyInfo.Picture);
         CreateWithoutAttachmentMessage(Sendername, SenderAddress, Recipients, mailheader, Mailbody);
         Dialogue.Close();
     end;
@@ -1197,23 +1219,26 @@ codeunit 50100 "HR Management"
         Mailbody: Text;
         Sendername: Text;
         Text0001: Label 'LEAVE APPLICATION FINAL APPROVAL: %1';
-        Text0002: Label 'The following leave application request has been forwarded to you for approval. <br><br> Leave Application No <b> %1:%2 </b> for %3-%4 who has applied for %5 days from <b>%6</b> to <b>%7</b>.<br><br> Kind Regards,<br><br>%8 <br><br>';
+        Text0002: Label 'The following leave application request has been forwarded to you for approval. <br><br> Leave Application No <b> %1:%2 </b> for %3-%4 who has applied for %5 days from <b>%6</b> to <b>%7</b>.<br><br> Kind Regards,<br><br> %8 <br> %9';
         SenderAddress: Text;
         Recipients: Text;
         HRSetup: Record "Human Resources Setup";
         Employee: Record Employee;
         Leaveworkflow: Record "Leave WorkFlow Setup";
         UserSetup: Record "User Setup";
-    //Default: Codeunit "Default Management";
+        //Default: Codeunit "Default Management";
+        CompanyInfo: Record "Company Information";
     begin
         Dialogue.Open('Sending Mail to the second approver Notifying him/her of the leave application');
+        CompanyInfo.Get();
+        CompanyInfo.CalcFields(Picture);
         HRSetup.GET();
         HRSetup.TestField("HR E-Mail");
         UserSetup.GET(LeaveApplication."Second Approver");
         Recipients := UserSetup."E-Mail";
         SenderAddress := HRSetup."HR E-Mail";
         mailheader := StrSubstNo(Text0001, LeaveApplication."No.");
-        Mailbody := StrSubstNo(Text0002, LeaveApplication."No.", LeaveApplication."Leave Code", LeaveApplication."Employee No.", LeaveApplication."Employee Name", LeaveApplication."Approved Days", LeaveApplication."Approved Start Date", LeaveApplication."Approved End Date");
+        Mailbody := StrSubstNo(Text0002, LeaveApplication."No.", LeaveApplication."Leave Code", LeaveApplication."Employee No.", LeaveApplication."Employee Name", LeaveApplication."Approved Days", LeaveApplication."Approved Start Date", LeaveApplication."Approved End Date", CompanyInfo.Name, CompanyInfo.Picture);
         CreateWithoutAttachmentMessage(Sendername, SenderAddress, Recipients, mailheader, Mailbody);
         Dialogue.Close();
     end;
@@ -1256,23 +1281,26 @@ codeunit 50100 "HR Management"
         Mailbody: Text;
         Sendername: Text;
         Text0001: Label 'LEAVE APPLICATION REQUEST: %1';
-        Text0002: Label 'Please note that Employee No %1-%2 is scheduled to go on leave for %3 day(s) from %4 to %5.<br><br> Kind Regards,<br><br> %6 <br><br> Mentor Sacco Society<br><br>';
+        Text0002: Label 'Please note that Employee No %1-%2 is scheduled to go on leave for %3 day(s) from %4 to %5.<br><br> Kind Regards,<br><br> %6 <br><br> %7 <br><br>';
         SenderAddress: Text;
         Recipients: Text;
         HRSetup: Record "Human Resources Setup";
         Employee: Record Employee;
         Leaveworkflow: Record "Leave WorkFlow Setup";
-
+        CompanyInfo: Record "Company Information";
+        UserSetup: Record "User Setup";
     begin
         Dialogue.Open('Sending Mail to Employee Notifying him/her of the leave application');
+        CompanyInfo.get;
         HRSetup.GET();
         HRSetup.TestField("HR E-Mail");
+        UserSetup.GET(LeaveApplication."First Approver");
         Employee.Reset();
         Employee.Get(LeaveApplication."Employee No.");
-        Recipients := Employee."E-mail";
+        Recipients := UserSetup."E-Mail";
         SenderAddress := HRSetup."HR E-Mail";
         mailheader := StrSubstNo(Text0001, LeaveApplication."No.");
-        Mailbody := StrSubstNo(Text0002, Employee."No.", LeaveApplication."Employee Name", LeaveApplication."Approved Days", LeaveApplication."Approved Start Date", LeaveApplication."Approved End Date", Employee.FullName());
+        Mailbody := StrSubstNo(Text0002, Employee."No.", LeaveApplication."Employee Name", LeaveApplication."Approved Days", LeaveApplication."Approved Start Date", LeaveApplication."Approved End Date", Employee.FullName(), CompanyInfo.Name);
         CreateWithoutAttachmentMessage(Sendername, SenderAddress, Recipients, mailheader, Mailbody);
         Dialogue.Close();
     end;
@@ -1283,23 +1311,24 @@ codeunit 50100 "HR Management"
         Mailbody: Text;
         Sendername: Text;
         Text0001: Label 'LEAVE APPLICATION REQUEST: %1';
-        Text0002: Label 'Dear %1 <br><br> Please Note that your leave request has been approved. Your Leave type: <b> %2 </b> of %3 day(s) is to start on <b> %4 </b> and end on <b> %5 </b>.<br><br> Kind Regards,<br><br> Mentor Sacco Society Ltd <br><br>';
+        Text0002: Label 'Dear %1 <br><br> Please Note that your leave request has been approved. Your Leave type: <b> %2 </b> of %3 day(s) is to start on <b> %4 </b> and end on <b> %5 </b>.<br><br> Kind Regards,<br><br> %6 <br> Human Resource Management.';
         SenderAddress: Text;
         Recipients: Text;
         HRSetup: Record "Human Resources Setup";
         Employee: Record Employee;
         Leaveworkflow: Record "Leave WorkFlow Setup";
-
+        CompanyInfo: Record "Company Information";
     begin
         Dialogue.Open('Sending Mail to Employee Notifying him/her of the leave application');
+        CompanyInfo.get;
         HRSetup.GET();
         HRSetup.TestField("HR E-Mail");
         Employee.Reset();
         Employee.Get(LeaveApplication."Employee No.");
-        Recipients := Employee."E-mail";
+        Recipients := Employee."Company E-Mail";
         SenderAddress := HRSetup."HR E-Mail";
         mailheader := StrSubstNo(Text0001, LeaveApplication."No.");
-        Mailbody := StrSubstNo(Text0002, Employee.FullName(), LeaveApplication."Leave Code", LeaveApplication."Approved Days", LeaveApplication."Approved Start Date", LeaveApplication."Approved End Date");
+        Mailbody := StrSubstNo(Text0002, Employee.FullName(), LeaveApplication."Leave Code", LeaveApplication."Approved Days", LeaveApplication."Approved Start Date", LeaveApplication."Approved End Date", CompanyInfo.Name);
         CreateWithoutAttachmentMessage(Sendername, SenderAddress, Recipients, mailheader, Mailbody);
         Dialogue.Close();
     end;

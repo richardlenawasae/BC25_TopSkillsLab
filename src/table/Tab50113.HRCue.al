@@ -36,7 +36,7 @@ table 50113 "HR Cue"
         field(7; "Approved Leave Applications"; Integer)
         {
             FieldClass = FlowField;
-            CalcFormula = count("Leave Application" where(Status = filter('Released')));
+            CalcFormula = count("Leave Application" where(Status = filter('Approved')));
         }
         // field(8; "New Training Request"; Integer)
         // {

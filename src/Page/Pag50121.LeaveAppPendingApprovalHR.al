@@ -64,11 +64,13 @@ page 50121 "Leave App. Pending Approval HR"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Second Approver field.';
+                    Visible = false;
                 }
                 field("Second Stage approval"; Rec."Second Stage approval")
                 {
                     ApplicationArea = all;
                     ToolTip = 'Specifies the value of the Second Stage approval field.';
+                    Visible = false;
                 }
             }
         }

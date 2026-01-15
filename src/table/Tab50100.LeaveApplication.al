@@ -14,6 +14,7 @@ table 50100 "Leave Application"
             trigger OnValidate();
             var
                 LeaveApp: record "Leave Application";
+                EmployeeRec: Record Employee;
             begin
                 IF Employee.GET("Employee No.") THEN BEGIN
                     IF UserSetup.GET(USERID) THEN begin
@@ -26,16 +27,16 @@ table 50100 "Leave Application"
                     LeaveApp.Reset();
                     LeaveApp.SetRange("Employee No.", rec."Employee No.");
                     LeaveApp.SetFilter("No.", '<>%1', rec."No.");
-                    LeaveApp.SetRange(Status, LeaveApp.Status::Open);
+                    LeaveApp.SetFilter(Status, '%1|%2',LeaveApp.Status::Open,LeaveApp.Status::"Pending Approval");
                     if LeaveApp.FindFirst() then
-                        Error('You have an existing new leave application');
+                        Error('You have an existing new or a pending approval leave application, you can applied until such leave is cleared.');
 
                     LeaveApp.Reset();
                     LeaveApp.SetRange("User ID", UserId);
                     LeaveApp.SetFilter("No.", '<>%1', rec."No.");
-                    LeaveApp.SetRange(Status, LeaveApp.Status::Open);
+                    LeaveApp.SetFilter(Status, '%1|%2',LeaveApp.Status::Open,LeaveApp.Status::"Pending Approval");
                     if LeaveApp.FindFirst() then
-                        Error('You have an existing new leave application');
+                        Error('You have an existing new or a pending approval leave application, you can applied until such leave is cleared.');
 
                     "Employee Name" := Employee.FullName();
                     "Job Title" := Employee."Job Title";
@@ -43,6 +44,8 @@ table 50100 "Leave Application"
                     "Branch Code" := Employee."Global Dimension 2 Code";
                     "Employment Date" := Employee."Employment Date";
                     "Mobile No." := Employee."Mobile Phone No.";
+                    // if EmployeeRec.Get(Employee."Supervisor ID") then
+                    //     "First Approver" := EmployeeRec."First Name" + ' ' + EmployeeRec."Last Name";
                 END;
             end;
         }
@@ -78,7 +81,7 @@ table 50100 "Leave Application"
 
             trigger OnValidate();
             begin
-                 //"Leave balance" := "Balance brought forward" + "Leave Earned to Date" + "Recalled Days" + "Added Back Days" - "Total Leave Days Taken";
+                //"Leave balance" := "Balance brought forward" + "Leave Earned to Date" + "Recalled Days" + "Added Back Days" - "Total Leave Days Taken";
             end;
         }
 
@@ -248,8 +251,8 @@ table 50100 "Leave Application"
         field(25; Status; Option)
         {
             Editable = false;
-            OptionCaption = 'Open,Pending Approval,Released,Rejected';
-            OptionMembers = Open,"Pending Approval",Released,Rejected;
+            OptionCaption = 'Open,Pending Approval,Released,Rejected,Approved,Canceled,Created';
+            OptionMembers = Open,"Pending Approval",Released,Rejected,Approved,Canceled,Created;
         }
         field(26; Department; Text[50])
         {
@@ -392,6 +395,10 @@ table 50100 "Leave Application"
                     Error('Approved days cannot be greater than applied days');
                 "Approved End Date" := updateEndingDate("Approved Start Date", Format("Approver 2 Days"));
             end;
+        }
+        field(49; "Leave Approval Status"; Enum "Leave Approval Status")
+        {
+            DataClassification = CustomerContent;
         }
     }
 

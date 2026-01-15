@@ -25,15 +25,27 @@ pageextension 50103 EmployeeCardExt extends "Employee Card"
         }
         addafter("Privacy Blocked")
         {
+            field("Global Dimension 1 Code"; Rec."Global Dimension 1 Code")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Global Dimension 1 Code field.';
+            }
+            field("Global Dimension 2 Code"; Rec."Global Dimension 2 Code")
+            {
+                ApplicationArea = All;
+                ToolTip = 'Specifies the value of the Global Dimension 2 Code field.';
+            }
             field("Department Code"; Rec."Department Code")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Department Code field.';
+                Visible = false;
             }
             field("Branch Code"; Rec."Branch Code")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Branch Code field.';
+                Visible = false;
             }
         }
         addafter("Social Security No.")

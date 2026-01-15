@@ -1,4 +1,4 @@
-page 50119 "Approved Leave Application"
+page 50136 "Canceled Leave Application"
 {
     CardPageID = "Leave Application Card";
     DeleteAllowed = false;
@@ -7,7 +7,7 @@ page 50119 "Approved Leave Application"
     ModifyAllowed = false;
     PageType = List;
     SourceTable = "Leave Application";
-    SourceTableView = WHERE(Status = FILTER(Approved));
+    SourceTableView = WHERE(Status = FILTER('Canceled'));
     UsageCategory = Lists;
     ApplicationArea = all;
 
@@ -17,7 +17,7 @@ page 50119 "Approved Leave Application"
         {
             repeater(Group)
             {
-                field("Application No"; Rec."No.")
+                field("No."; Rec."No.")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the No. field.';
@@ -27,7 +27,7 @@ page 50119 "Approved Leave Application"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Application Date field.';
                 }
-                field("Employee No."; Rec."Employee No.")
+                field("Employee No"; Rec."Employee No.")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Employee No. field.';
@@ -87,28 +87,7 @@ page 50119 "Approved Leave Application"
 
     trigger OnOpenPage();
     begin
-        UserSetup.GET(UserID);
-        if UserSetup."HR Approval Admin" then
-            exit;
         CurrPage.EDITABLE(FALSE);
-        Rec.FilterGroup(2);
-        Rec.SetRange("User ID", UserId);
-        Rec.FilterGroup(0);
     end;
-
-    trigger OnNewRecord(BelowxRec: Boolean)
-    begin
-        Error(Error000);
-    end;
-
-    trigger OnModifyRecord(): Boolean;
-    begin
-        Error(Error001);
-    end;
-
-    var
-        Error000: Label 'You cannot create a new record!';
-        Error001: Label 'You cannot modify this record!';
-        UserSetup: Record "User Setup";
 }
 

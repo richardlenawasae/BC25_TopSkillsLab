@@ -73,6 +73,7 @@ page 50118 "Leave App. Pending Approval"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Second Approver field.';
+                    Visible=false;
                 }
             }
         }
@@ -83,12 +84,12 @@ page 50118 "Leave App. Pending Approval"
     }
     trigger OnOpenPage()
     begin
-        if Rec."First Stage approval" = false THEN BEGIN
-            Rec.FilterGroup(2);
-            Rec.SetRange("First Approver", UserId);
-            Rec.SetRange("First Stage approval", false);
-            Rec.FilterGroup(0);
-        end;
+        // if Rec."First Stage approval" = false THEN BEGIN
+        //     Rec.FilterGroup(2);
+        //     Rec.SetRange("First Approver", UserId);
+        //     Rec.SetRange("First Stage approval", false);
+        //     Rec.FilterGroup(0);
+        // end;
     END;
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean

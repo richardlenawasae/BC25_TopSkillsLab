@@ -167,7 +167,7 @@ page 50115 "Headline RC HR"
     local procedure LeaveTodayCount()
     begin
         LeaveApplications.Reset();
-        LeaveApplications.SetRange(Status, LeaveApplications.Status::Released);
+        LeaveApplications.SetRange(Status, LeaveApplications.Status::Approved);
         LeaveApplications.SetFilter("Approved Start Date", '<%1', TODAY);
         LeaveApplications.SetFilter("Approved End Date", '>%1', TODAY);
         if LeaveApplications.FindSet() then begin

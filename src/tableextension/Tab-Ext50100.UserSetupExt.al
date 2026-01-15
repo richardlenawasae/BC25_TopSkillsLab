@@ -52,6 +52,11 @@ tableextension 50100 UserSetupExt extends "User Setup"
             TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(2));
             DataClassification = CustomerContent;
         }
+        field(50107; "HR Approval Admin"; Boolean)
+        {
+            Caption = 'HR Approver';
+            DataClassification = CustomerContent;
+        }
     }
 
 }
