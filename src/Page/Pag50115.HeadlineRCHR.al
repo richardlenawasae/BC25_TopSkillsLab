@@ -38,7 +38,7 @@ page 50115 "Headline RC HR"
                     trigger OnDrillDown();
                     begin
                         Employee.Reset();
-                        Employee.SetRange("Employee Status", Employee.Status);
+                        Employee.SetRange("Employee Status", Employee.Status::Active);
                         if Employee.FindSet() then
                             page.Run(5201, Employee);
                     end;
@@ -53,6 +53,22 @@ page 50115 "Headline RC HR"
                     DrillDown = true;
                     Editable = false;
                     ToolTip = 'Specifies the value of the StrSubstNo(Text002, LeaveCount) field.';
+                    trigger OnDrillDown()
+                    var
+                        LeaveApplications: Record "Leave Application";
+                        Employee: Record Employee;
+                    begin
+                        LeaveApplications.Reset();
+                        LeaveApplications.SetRange(Status, LeaveApplications.Status::Approved);
+                        LeaveApplications.SetFilter("Approved Start Date", '<=%1', Today);
+                        LeaveApplications.SetFilter("Approved End Date", '>=%1', Today);
+
+                        if LeaveApplications.FindSet() then begin
+                            Employee.Reset();
+                            Employee.SetFilter("No.", GetEmployeeFilter(LeaveApplications));
+                            Page.Run(Page::"Employee List", Employee);
+                        end;
+                    end;
                 }
             }
             group(Control4)
@@ -124,10 +140,10 @@ page 50115 "Headline RC HR"
         EmployeeStatus: Enum "Employee Status";
         Text000: Label 'Welcome %1';
         Text001: Label 'There are %1 active Employees';
-        Text002: Label '%1 Employees are on leave today';
-        Text003: Label '%1 Employees are celebrating their birthday today';
-        Text004: Label '%1 Employees are on probation';
-        Text005: Label '%1 Employees have left %2';
+        Text002: Label '%1 Employee(s) are on leave today';
+        Text003: Label '%1 Employee(s) are celebrating their birthday today';
+        Text004: Label '%1 Employee(s) are on probation';
+        Text005: Label '%1 Employee(s) have left %2';
         CompanyInfo: Record "Company Information";
         RCHeadlinesPageCommon: Codeunit "RC Headlines Page Common";
 
@@ -166,15 +182,16 @@ page 50115 "Headline RC HR"
 
     local procedure LeaveTodayCount()
     begin
+        LeaveCount := 0;
         LeaveApplications.Reset();
         LeaveApplications.SetRange(Status, LeaveApplications.Status::Approved);
-        LeaveApplications.SetFilter("Approved Start Date", '<%1', TODAY);
-        LeaveApplications.SetFilter("Approved End Date", '>%1', TODAY);
-        if LeaveApplications.FindSet() then begin
+        LeaveApplications.SetFilter("Approved Start Date", '<=%1', Today);
+        LeaveApplications.SetFilter("Approved End Date", '>=%1', Today);
+
+        if LeaveApplications.FindSet() then
             repeat
                 LeaveCount += 1;
             until LeaveApplications.Next() = 0;
-        end;
     end;
 
     local procedure UpdateSummary()
@@ -210,4 +227,19 @@ page 50115 "Headline RC HR"
             until DimensionValue.Next() = 0;
         end;
     end;
+
+    local procedure GetEmployeeFilter(var LeaveApplications: Record "Leave Application"): Text
+    var
+        EmployeeFilter: Text;
+    begin
+        repeat
+            if EmployeeFilter = '' then
+                EmployeeFilter := LeaveApplications."Employee No."
+            else
+                EmployeeFilter += '|' + LeaveApplications."Employee No.";
+        until LeaveApplications.Next() = 0;
+
+        exit(EmployeeFilter);
+    end;
+
 }

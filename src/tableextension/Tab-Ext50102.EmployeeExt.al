@@ -2,6 +2,10 @@ tableextension 50102 EmployeeExt extends Employee
 {
     fields
     {
+        modify("Global Dimension 2 Code")
+        {
+            Caption = 'Branch Code';
+        }
         field(50100; "Employee Job Title"; Code[100])
         {
             DataClassification = CustomerContent;

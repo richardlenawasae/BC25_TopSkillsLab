@@ -27,14 +27,14 @@ table 50100 "Leave Application"
                     LeaveApp.Reset();
                     LeaveApp.SetRange("Employee No.", rec."Employee No.");
                     LeaveApp.SetFilter("No.", '<>%1', rec."No.");
-                    LeaveApp.SetFilter(Status, '%1|%2',LeaveApp.Status::Open,LeaveApp.Status::"Pending Approval");
+                    LeaveApp.SetFilter(Status, '%1|%2', LeaveApp.Status::Open, LeaveApp.Status::"Pending Approval");
                     if LeaveApp.FindFirst() then
                         Error('You have an existing new or a pending approval leave application, you can applied until such leave is cleared.');
 
                     LeaveApp.Reset();
                     LeaveApp.SetRange("User ID", UserId);
                     LeaveApp.SetFilter("No.", '<>%1', rec."No.");
-                    LeaveApp.SetFilter(Status, '%1|%2',LeaveApp.Status::Open,LeaveApp.Status::"Pending Approval");
+                    LeaveApp.SetFilter(Status, '%1|%2', LeaveApp.Status::Open, LeaveApp.Status::"Pending Approval");
                     if LeaveApp.FindFirst() then
                         Error('You have an existing new or a pending approval leave application, you can applied until such leave is cleared.');
 
@@ -44,9 +44,9 @@ table 50100 "Leave Application"
                     "Branch Code" := Employee."Global Dimension 2 Code";
                     "Employment Date" := Employee."Employment Date";
                     "Mobile No." := Employee."Mobile Phone No.";
-                    // if EmployeeRec.Get(Employee."Supervisor ID") then
-                    //     "First Approver" := EmployeeRec."First Name" + ' ' + EmployeeRec."Last Name";
                 END;
+                if HasActiveLeave("Employee No.", Today) then // Prevent re-application while employee has active leave unitl he/her returns.
+                    Error('Employee already has an active approved leave.');
             end;
         }
         field(3; "Employee Name"; Text[50])
@@ -507,6 +507,18 @@ table 50100 "Leave Application"
 
     end;
 
+    procedure HasActiveLeave(EmployeeNo: Code[20]; CheckDate: Date): Boolean
+    var
+        LeaveApplication: Record "Leave Application";
+    begin
+        LeaveApplication.Reset();
+        LeaveApplication.SetRange("Employee No.", EmployeeNo);
+        LeaveApplication.SetRange(Status, LeaveApplication.Status::Approved);
 
+        LeaveApplication.SetFilter("Start Date", '<=%1', CheckDate);
+        LeaveApplication.SetFilter("End Date", '>=%1', CheckDate);
+
+        exit(LeaveApplication.FindFirst());
+    end;
 }
 
